@@ -1,0 +1,63 @@
+syntax = "proto3";
+option java_outer_classname = "ConnectorMsg";
+
+message cMsgInfo{
+
+  enum CMsgType {
+    BEAT = 0;
+    TRANS = 1;
+    CONNECT = 2;
+  }
+
+  CMsgType cMsgType = 1;
+
+  oneof dataBody {
+    Beat beat = 2;
+    Trans trans = 3;
+    Connect connect = 4;
+  }
+}
+
+message Beat {
+  int64 requesttime = 1;
+  int64 responsetime = 2;
+}
+
+message Trans {
+  int32 msgID = 1;
+  int32 srcUserid = 2;
+  int32 dstUserid = 3;
+  enum MsgType {
+    WORD = 0;
+    PHOTO = 1;
+    VOICE = 2;
+  }
+  MsgType msgType = 4;
+  bytes msgContent = 5;
+  int32 msgMark = 6;
+  int32 retryTimes = 7;
+}
+
+message Connect {
+  int32 userid = 1;
+  enum MsgType {
+    ONLINE = 0;
+    OFFLINE = 1;
+  }
+  int64 responsetime = 2;
+}
+
+
+
+message FindMatch {
+  UserInfo userInfo = 1;
+  int32 dstAgeRange = 2;
+  int32 dstSex = 3;
+  int32 dstHobby = 4;
+}
+
+message UserInfo {
+  int32 userid = 1;
+  int32 sex = 2;
+  int32 age = 3;
+}
