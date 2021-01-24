@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@mipmap/activity_login_background">
+
+    <Button
+        android:id="@+id/activity_login_registswitch_btn"
+        android:layout_width="match_parent"
+        android:layout_height="440px"
+        android:layout_marginTop="488dp"
+        android:background="@color/blank"
+        android:text="@string/sign_up"
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/activity_login_mail_et"
+        android:layout_width="800px"
+        android:layout_height="125px"
+        android:layout_marginTop="104dp"
+
+        android:background="@drawable/activity_regist_mailtv"
+        android:gravity="center_vertical"
+
+        android:hint="@string/mail"
+        android:paddingStart="160px"
+
+        android:textColor="@color/white"
+
+        android:textColorHint="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_mail"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_login_mail_et"
+        app:layout_constraintHorizontal_bias="0.10"
+        app:layout_constraintLeft_toLeftOf="@+id/activity_login_mail_et"
+        app:layout_constraintRight_toRightOf="@+id/activity_login_mail_et"
+        app:layout_constraintTop_toTopOf="@+id/activity_login_mail_et" />
+
+    <EditText
+        android:id="@+id/activity_login_pwd_et"
+        android:layout_width="800px"
+        android:layout_height="125px"
+        android:layout_marginTop="32dp"
+
+        android:background="@drawable/activity_regist_mailtv"
+        android:gravity="center_vertical"
+
+        android:hint="@string/password"
+        android:paddingStart="160px"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+
+        android:textSize="16sp"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_mail_et" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_lock"
+
+        app:layout_constraintBottom_toBottomOf="@+id/activity_login_pwd_et"
+        app:layout_constraintHorizontal_bias="0.10"
+        app:layout_constraintLeft_toLeftOf="@+id/activity_login_pwd_et"
+        app:layout_constraintRight_toRightOf="@+id/activity_login_pwd_et"
+        app:layout_constraintTop_toTopOf="@+id/activity_login_pwd_et" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="忘记密码"
+        android:textColor="@color/white"
+        app:layout_constraintHorizontal_bias="0.783"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_pwd_et">
+
+    </TextView>
+
+    <Button
+        android:id="@+id/activity_login_sign_btn"
+        android:layout_width="800px"
+        android:layout_height="125px"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/activity_regist_signbtn_selector"
+        android:text="@string/login"
+        android:textColor="#0061EE"
+        android:textSize="16sp"
+        app:cornerRadius="50dp"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_pwd_et" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

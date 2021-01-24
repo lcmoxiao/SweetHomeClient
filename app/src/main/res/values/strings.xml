@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SweetHomeClient</string>
+    <string name="regist">注册</string>
+    <string name="password">密码</string>
+    <string name="checkpassword">确认密码</string>
+    <string name="mail">邮箱</string>
+    <string name="login">登录</string>
+    <string name="sign_up">Sign Up</string>
 </resources>

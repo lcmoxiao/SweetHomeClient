@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@mipmap/activity_regist_background">
+
+    <Button
+        android:id="@+id/activity_regist_loginswitch_btn"
+        android:layout_width="match_parent"
+        android:layout_height="440px"
+        android:background="@color/blank"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="358dp"
+        android:background="@drawable/ic_mail"
+
+
+        app:layout_constraintHorizontal_bias="0.205"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
+
+    <EditText
+        android:id="@+id/activity_regist_mail_et"
+        android:layout_width="800px"
+        android:layout_height="125px"
+        android:layout_marginTop="340dp"
+
+        android:background="@drawable/activity_regist_mailtv"
+        android:gravity="center_vertical"
+
+        android:hint="@string/mail"
+        android:paddingStart="160px"
+
+        android:textColor="@color/white"
+
+        android:textColorHint="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="435dp"
+        android:background="@drawable/ic_lock"
+
+        app:layout_constraintHorizontal_bias="0.205"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
+
+    <EditText
+        android:id="@+id/activity_regist_pwd_et"
+        android:layout_width="800px"
+        android:layout_height="125px"
+        android:layout_marginTop="420dp"
+
+        android:background="@drawable/activity_regist_mailtv"
+        android:gravity="center_vertical"
+
+        android:hint="@string/password"
+        android:paddingStart="160px"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+
+        android:textSize="16sp"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="515dp"
+        android:background="@drawable/ic_lock"
+
+        app:layout_constraintHorizontal_bias="0.205"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
+
+    <EditText
+        android:id="@+id/activity_regist_recheckpwd_et"
+        android:layout_width="800px"
+        android:layout_height="125px"
+        android:layout_marginTop="500dp"
+
+        android:background="@drawable/activity_regist_mailtv"
+        android:gravity="center_vertical"
+
+        android:hint="@string/checkpassword"
+        android:paddingStart="160px"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+
+        android:textSize="16sp"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/activity_regist_sign_btn"
+        android:layout_width="800px"
+        android:layout_height="125px"
+        android:layout_marginTop="600dp"
+        android:background="@drawable/activity_regist_signbtn_selector"
+        android:text="@string/regist"
+        android:textColor="@color/pink"
+        android:textSize="16sp"
+        app:cornerRadius="50dp"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
