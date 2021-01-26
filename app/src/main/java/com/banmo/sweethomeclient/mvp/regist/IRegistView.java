@@ -1,4 +1,4 @@
-package com.banmo.sweethomeclient.regist;
+package com.banmo.sweethomeclient.mvp.regist;
 
 interface IRegistView {
 

@@ -1,4 +1,4 @@
-package com.banmo.sweethomeclient.regist;
+package com.banmo.sweethomeclient.mvp.regist;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -19,7 +19,7 @@ class RegistPresenterImpl implements IRegistPresenter {
 
         boolean result = checkRegist(mail, pwd);
         if (!result) clear();
-        handler.postDelayed(() -> registView.onRegistResult(result), 3000);
+        handler.postDelayed(() -> registView.onRegistResult(result), 500);
 
     }
 

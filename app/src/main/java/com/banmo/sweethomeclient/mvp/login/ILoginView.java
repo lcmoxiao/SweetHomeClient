@@ -1,4 +1,4 @@
-package com.banmo.sweethomeclient.login;
+package com.banmo.sweethomeclient.mvp.login;
 
 interface ILoginView {
 

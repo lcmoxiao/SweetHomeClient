@@ -1,4 +1,4 @@
-package com.banmo.sweethomeclient.regist;
+package com.banmo.sweethomeclient.mvp.regist;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.banmo.sweethomeclient.R;
-import com.banmo.sweethomeclient.login.LoginActivity;
+import com.banmo.sweethomeclient.mvp.login.LoginActivity;
 
 public class RegistActivity extends AppCompatActivity implements IRegistView {
 

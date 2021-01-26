@@ -1,4 +1,4 @@
-package com.banmo.sweethomeclient.login;
+package com.banmo.sweethomeclient.mvp.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.banmo.sweethomeclient.HomeActivity;
 import com.banmo.sweethomeclient.R;
-import com.banmo.sweethomeclient.regist.RegistActivity;
+import com.banmo.sweethomeclient.mvp.home.HomeActivity;
+import com.banmo.sweethomeclient.mvp.regist.RegistActivity;
 
 public class LoginActivity extends AppCompatActivity implements ILoginView {
 

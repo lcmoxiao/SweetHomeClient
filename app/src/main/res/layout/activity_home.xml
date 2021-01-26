@@ -6,16 +6,23 @@
 
     android:background="@mipmap/all_background">
 
-    <fragment
-        android:id="@+id/home_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <FrameLayout
+        android:id="@+id/home_fragment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         app:layout_constraintBottom_toTopOf="@+id/home_switchgroup_bottom"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+        　　　　 <!-- 可以在这个容器中动态加载Fragment -->
+        <fragment
+            android:id="@+id/home_fragment"
+            android:name="com.banmo.sweethomeclient.mvp.home.friend.FriendFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    </fragment>
+    </FrameLayout>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,11 +37,11 @@
 
         <Button
             android:id="@+id/home_find_rbt"
-            android:layout_width="75px"
+            android:layout_width="70px"
             android:layout_height="61px"
 
             android:layout_marginLeft="200px"
-            android:layout_marginBottom="20px"
+            android:layout_marginBottom="30px"
             android:background="@drawable/ic_earth"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -46,10 +53,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="22dp"
-
-            android:text="找"
+            android:text="遇"
             android:textColor="@color/white"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -60,9 +65,9 @@
 
         <Button
             android:id="@+id/home_friend_rbt"
-            android:layout_width="75px"
+            android:layout_width="70px"
             android:layout_height="61px"
-            android:layout_marginBottom="20px"
+            android:layout_marginBottom="30px"
             android:background="@drawable/ic_friend"
             android:button="@null"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -75,7 +80,7 @@
             android:layout_height="wrap_content"
 
             android:layout_marginTop="22dp"
-            android:text="友"
+            android:text="知"
             android:textColor="@color/white"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -86,10 +91,10 @@
 
         <Button
             android:id="@+id/home_mine_rbt"
-            android:layout_width="75px"
+            android:layout_width="66px"
             android:layout_height="61px"
             android:layout_marginRight="200px"
-            android:layout_marginBottom="20px"
+            android:layout_marginBottom="30px"
             android:background="@drawable/ic_mine"
             android:button="@null"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -102,7 +107,7 @@
             android:layout_height="wrap_content"
 
             android:layout_marginTop="22dp"
-            android:text="我"
+            android:text="己"
             android:textColor="@color/white"
 
             app:layout_constraintBottom_toBottomOf="parent"

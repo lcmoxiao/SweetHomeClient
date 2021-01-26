@@ -6,4 +6,8 @@
     <string name="mail">邮箱</string>
     <string name="login">登录</string>
     <string name="sign_up">Sign Up</string>
+    <string name="friend">好友</string>
+    <string name="null_null">null/null</string>
+    <string name="username">USERNAME</string>
+    <string name="last_msg">last msg</string>
 </resources>

@@ -1,9 +1,7 @@
-package com.banmo.sweethomeclient.login;
+package com.banmo.sweethomeclient.mvp.login;
 
 import android.os.Handler;
 import android.os.Looper;
-
-import com.banmo.sweethomeclient.login.ILoginView;
 
 class LoginPresenterImpl implements ILoginPresenter {
     private ILoginView loginView; //视图
@@ -19,7 +17,7 @@ class LoginPresenterImpl implements ILoginPresenter {
     public void doLogin(String mail, String pwd) {
         boolean result = checkLogin(mail, pwd);
         if (!result) clear();
-        handler.postDelayed(() -> loginView.onLoginResult(result), 3000);
+        handler.postDelayed(() -> loginView.onLoginResult(result), 500);
     }
 
     private boolean checkLogin(String mail, String pwd) {
