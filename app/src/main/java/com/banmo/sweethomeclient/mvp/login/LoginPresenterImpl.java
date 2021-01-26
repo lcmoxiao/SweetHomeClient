@@ -17,7 +17,7 @@ class LoginPresenterImpl implements ILoginPresenter {
     public void doLogin(String mail, String pwd) {
         boolean result = checkLogin(mail, pwd);
         if (!result) clear();
-        handler.postDelayed(() -> loginView.onLoginResult(result), 500);
+        handler.postDelayed(() -> loginView.onLoginResult(result), 1);
     }
 
     private boolean checkLogin(String mail, String pwd) {

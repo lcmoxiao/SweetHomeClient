@@ -5,6 +5,7 @@
     android:layout_height="230px">
 
     <com.banmo.sweethomeclient.customview.CircleImageView
+        android:id="@+id/fragment_friend_msg_item_headImg"
         android:layout_width="130px"
         android:layout_height="130px"
         android:src="@mipmap/all_background"
@@ -16,48 +17,52 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/fragment_friend_msg_username"
-        android:layout_width="wrap_content"
+        android:id="@+id/fragment_friend_msg_item_username"
+        android:layout_width="173dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="200px"
+        android:layout_marginTop="60px"
+        android:gravity="start"
+
         android:text="@string/username"
-
         android:textSize="7pt"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.234"
+
+
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.283" />
+
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/fragment_friend_msg_lastMsg"
-        android:layout_width="wrap_content"
+        android:id="@+id/fragment_friend_msg_item_lastMsg"
+        android:layout_width="308dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="200px"
+        android:layout_marginTop="80px"
+
+        android:gravity="start"
+
+        android:text="@string/last_msg"
+        android:textColor="#7F7F7F"
+        android:textSize="6pt"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fragment_friend_msg_item_timeStamp"
+        android:layout_width="118dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60px"
         android:text="@string/last_msg"
 
         android:textColor="#7F7F7F"
         android:textSize="6pt"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.215"
+        app:layout_constraintHorizontal_bias="0.911"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.728" />
-
-    <TextView
-        android:id="@+id/fragment_friend_msg_timeStamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/last_msg"
-
-        android:textColor="#7F7F7F"
-        android:textSize="6pt"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.849"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.271" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

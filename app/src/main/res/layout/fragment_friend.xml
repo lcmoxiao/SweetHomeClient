@@ -15,7 +15,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/fragment_friend_numTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/friend"
@@ -28,11 +27,12 @@
         app:layout_constraintTop_toTopOf="@+id/fragment_friend_topPanel" />
 
     <TextView
+        android:id="@+id/fragment_friend_numTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/null_null"
         android:textColor="@color/white"
-        android:textSize="8pt"
+        android:textSize="10pt"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_friend_topPanel"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -41,6 +41,7 @@
 
 
     <ImageView
+        android:id="@+id/fragment_friend_remind"
         android:layout_width="69px"
         android:layout_height="67px"
         android:src="@drawable/ic_msg"

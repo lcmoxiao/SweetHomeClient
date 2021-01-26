@@ -15,12 +15,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        　　　　 <!-- 可以在这个容器中动态加载Fragment -->
-        <fragment
-            android:id="@+id/home_fragment"
-            android:name="com.banmo.sweethomeclient.mvp.home.friend.FriendFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
     </FrameLayout>
 
@@ -36,7 +30,7 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <Button
-            android:id="@+id/home_find_rbt"
+            android:id="@+id/home_find_bt"
             android:layout_width="70px"
             android:layout_height="61px"
 
@@ -47,7 +41,7 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
 
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/home_friend_rbt"
+            app:layout_constraintRight_toLeftOf="@+id/home_friend_bt"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -58,21 +52,21 @@
             android:textColor="@color/white"
 
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/home_find_rbt"
-            app:layout_constraintStart_toStartOf="@+id/home_find_rbt"
-            app:layout_constraintTop_toTopOf="@+id/home_find_rbt" />
+            app:layout_constraintEnd_toEndOf="@+id/home_find_bt"
+            app:layout_constraintStart_toStartOf="@+id/home_find_bt"
+            app:layout_constraintTop_toTopOf="@+id/home_find_bt" />
 
 
         <Button
-            android:id="@+id/home_friend_rbt"
+            android:id="@+id/home_friend_bt"
             android:layout_width="70px"
             android:layout_height="61px"
             android:layout_marginBottom="30px"
             android:background="@drawable/ic_friend"
             android:button="@null"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/home_find_rbt"
-            app:layout_constraintRight_toLeftOf="@+id/home_mine_rbt"
+            app:layout_constraintLeft_toRightOf="@+id/home_find_bt"
+            app:layout_constraintRight_toLeftOf="@+id/home_mine_bt"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -84,13 +78,13 @@
             android:textColor="@color/white"
 
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/home_friend_rbt"
-            app:layout_constraintStart_toStartOf="@+id/home_friend_rbt"
-            app:layout_constraintTop_toTopOf="@+id/home_friend_rbt" />
+            app:layout_constraintEnd_toEndOf="@+id/home_friend_bt"
+            app:layout_constraintStart_toStartOf="@+id/home_friend_bt"
+            app:layout_constraintTop_toTopOf="@+id/home_friend_bt" />
 
 
         <Button
-            android:id="@+id/home_mine_rbt"
+            android:id="@+id/home_mine_bt"
             android:layout_width="66px"
             android:layout_height="61px"
             android:layout_marginRight="200px"
@@ -98,7 +92,7 @@
             android:background="@drawable/ic_mine"
             android:button="@null"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/home_friend_rbt"
+            app:layout_constraintLeft_toRightOf="@+id/home_friend_bt"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,9 +105,9 @@
             android:textColor="@color/white"
 
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/home_mine_rbt"
-            app:layout_constraintStart_toStartOf="@+id/home_mine_rbt"
-            app:layout_constraintTop_toTopOf="@+id/home_mine_rbt" />
+            app:layout_constraintEnd_toEndOf="@+id/home_mine_bt"
+            app:layout_constraintStart_toStartOf="@+id/home_mine_bt"
+            app:layout_constraintTop_toTopOf="@+id/home_mine_bt" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
