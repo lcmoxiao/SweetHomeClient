@@ -21,7 +21,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button findBtn;
     private Button friendBtn;
     private Button mineBtn;
-    private int fragmentIndex = 0; //记录当前的fragment角标
+    private int fragmentIndex = 0;
 
     private Fragment[] fragments = new Fragment[3];
     private FragmentManager manager;
@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
 
         switchFragment(1);
 
-        //启动按钮切换事务
+        //鍚姩鎸夐挳鍒囨崲浜嬪姟
         initClick();
     }
 

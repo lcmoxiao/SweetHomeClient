@@ -1,5 +1,6 @@
 package com.banmo.sweethomeclient.mvp.home.friend;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.banmo.sweethomeclient.R;
 import com.banmo.sweethomeclient.customview.CircleImageView;
+import com.banmo.sweethomeclient.mvp.singletalk.SingleTalkActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +58,8 @@ public class FriendFragment extends Fragment {
         Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
         bmp.eraseColor(Color.parseColor("#FFEC808D"));
         Log.e("213", bmp.toString());
-        msgDateBeans.add(new MsgDateBean(bmp, "LC", "吃了吗", "2021/1/26 18:34"));
-        msgDateBeans.add(new MsgDateBean(bmp, "LC", "吃了吗", "2021/1/26 18:34"));
+        msgDateBeans.add(new MsgDateBean(bmp, "LC", "吃了吗", "2021/1/26 18:34", "在线"));
+        msgDateBeans.add(new MsgDateBean(bmp, "LC", "吃了吗", "2021/1/26 18:34", "在线"));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(
                 getContext(),
@@ -73,12 +75,14 @@ public class FriendFragment extends Fragment {
         private final String name;
         private final String lastMsg;
         private final String lastTime;
+        private final String state;
 
-        public MsgDateBean(Bitmap headImg, String name, String lastMsg, String lastTime) {
+        public MsgDateBean(Bitmap headImg, String name, String lastMsg, String lastTime, String state) {
             this.headImg = headImg;
             this.name = name;
             this.lastMsg = lastMsg;
             this.lastTime = lastTime;
+            this.state = state;
         }
 
         public Bitmap getHeadImg() {
@@ -91,6 +95,10 @@ public class FriendFragment extends Fragment {
 
         public String getLastMsg() {
             return lastMsg;
+        }
+
+        public String getState() {
+            return state;
         }
 
         public String getLastTime() {
@@ -132,10 +140,20 @@ public class FriendFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull MsgViewHolder holder, int position) {
             MsgDateBean msgDateBean = msgDateBeans.get(position);
+            String username = msgDateBean.getName();
+
             holder.headIv.setImageBitmap(msgDateBean.getHeadImg());
-            holder.nameTv.setText(msgDateBean.getName());
+            holder.nameTv.setText(username);
             holder.lastMsgTv.setText(msgDateBean.getLastMsg());
             holder.lastTimeTv.setText(msgDateBean.getLastTime());
+            holder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(getContext(), SingleTalkActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("dstUsername", msgDateBean.getName());
+                intent.putExtra("dstUserState", msgDateBean.getState());
+                startActivity(intent);
+            });
+
         }
 
         @Override

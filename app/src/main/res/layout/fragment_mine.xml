@@ -2,14 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="1740px"
+    android:layout_height="match_parent"
     android:background="#3DD7D7D7">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="200px"
-        android:layout_marginTop="180px"
+        android:layout_height="33dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="69dp"
         android:text="@string/headImg"
         android:textSize="8pt"
         app:layout_constraintHorizontal_bias="0.2"
@@ -18,9 +18,9 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="200px"
-        android:layout_marginTop="380px"
+        android:layout_height="33dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="160dp"
         android:text="@string/userId"
         android:textSize="8pt"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -28,9 +28,9 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="200px"
-        android:layout_marginTop="500px"
+        android:layout_height="33dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="212dp"
         android:text="@string/createtime"
         android:textSize="8pt"
         app:layout_constraintHorizontal_bias="0.2"
@@ -39,9 +39,9 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="200px"
-        android:layout_marginTop="620px"
+        android:layout_height="33dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="264dp"
         android:text="@string/userName"
         android:textSize="8pt"
         app:layout_constraintHorizontal_bias="0.08"
@@ -50,132 +50,199 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="200px"
-        android:layout_marginTop="740px"
+        android:layout_height="33dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="316dp"
         android:text="@string/sexy"
         android:textSize="8pt"
-        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="200px"
-        android:layout_marginTop="860px"
+        android:layout_height="33dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="368dp"
         android:text="@string/mail"
         android:textSize="8pt"
-        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="200px"
-        android:layout_marginTop="980px"
+        android:layout_height="33dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="420dp"
         android:text="@string/phoneNumber"
         android:textSize="8pt"
-        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.banmo.sweethomeclient.customview.CircleImageView
         android:id="@+id/fragment_mine_headImg"
-        android:layout_width="280px"
-        android:layout_height="280px"
+        android:layout_width="106dp"
+        android:layout_height="106dp"
+        android:layout_marginBottom="52dp"
         android:src="@mipmap/all_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.76"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.048" />
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_mine_idEt"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintLeft_toLeftOf="@+id/fragment_mine_idEt"
+        app:layout_constraintRight_toRightOf="@+id/fragment_mine_idEt" />
 
     <EditText
         android:id="@+id/fragment_mine_idEt"
-        android:layout_width="500px"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="500px"
-        android:layout_marginTop="380px"
+        android:layout_width="190dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginEnd="48dp"
         android:background="#6680FFFF"
         android:gravity="center"
         android:text="@string/username"
         android:textColor="@color/black"
         android:textSize="8pt"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/fragment_mine_createTimeEt"
-        android:layout_width="500px"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="500px"
-        android:layout_marginTop="500px"
+        android:layout_width="190dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="212dp"
+        android:layout_marginEnd="48dp"
         android:background="#6680FFFF"
         android:gravity="center"
         android:text="@string/createtime"
         android:textColor="@color/black"
         android:textSize="8pt"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/fragment_mine_usernameEt"
-        android:layout_width="500px"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="500px"
-        android:layout_marginTop="620px"
+        android:layout_width="190dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="264dp"
+        android:layout_marginEnd="48dp"
         android:background="#6680FFFF"
         android:gravity="center"
         android:text="@string/userName"
         android:textColor="@color/black"
         android:textSize="8pt"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/fragment_mine_sexyEt"
-        android:layout_width="500px"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="500px"
-        android:layout_marginTop="740px"
+        android:layout_width="190dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="316dp"
+        android:layout_marginEnd="48dp"
         android:background="#6680FFFF"
         android:gravity="center"
         android:text="@string/sexy"
         android:textColor="@color/black"
         android:textSize="8pt"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/fragment_mine_mailEt"
-        android:layout_width="500px"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="500px"
-        android:layout_marginTop="860px"
+        android:layout_width="190dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="368dp"
+        android:layout_marginEnd="48dp"
         android:background="#6680FFFF"
         android:gravity="center"
         android:text="@string/mail"
         android:textColor="@color/black"
         android:textSize="8pt"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <EditText
         android:id="@+id/fragment_mine_phoneEt"
-        android:layout_width="500px"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="500px"
-        android:layout_marginTop="980px"
+        android:layout_width="190dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="420dp"
+        android:layout_marginEnd="48dp"
         android:background="#6680FFFF"
         android:gravity="center"
         android:text="@string/phoneNumber"
         android:textColor="@color/black"
         android:textSize="8pt"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/fragment_mine_changeFriendSizeBtn"
+        android:layout_width="160dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="504dp"
+        android:background="#9951AAE3"
+        android:gravity="center"
+        android:text="@string/changeFriendSize"
+        android:textColor="@color/white"
+        android:textSize="7pt"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <Button
+        android:id="@+id/fragment_mine_saveChangeBtn"
+        android:layout_width="136dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="504dp"
+        android:layout_marginEnd="40dp"
+        android:background="#9951AAE3"
+        android:gravity="center"
+        android:text="@string/saveChange"
+        android:textColor="@color/white"
+        android:textSize="7pt"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/fragment_mine_changePwdBtn"
+        android:layout_width="95dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="580dp"
+        android:background="#9951AAE3"
+        android:gravity="center"
+        android:text="@string/changePassword"
+        android:textColor="@color/white"
+        android:textSize="7pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/fragment_mine_LogoutBtn"
+        android:layout_width="95dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="580dp"
+        android:background="#7270B603"
+        android:gravity="center"
+        android:text="@string/logout"
+        android:textColor="@color/white"
+        android:textSize="7pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/fragment_mine_DestroyUserBtn"
+        android:layout_width="95dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="580dp"
+        android:layout_marginEnd="40dp"
+        android:background="#ADD03956"
+        android:gravity="center"
+        android:text="@string/DestroyUser"
+        android:textColor="@color/white"
+        android:textSize="7pt"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

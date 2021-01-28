@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".mvp.home.HomeActivity" />
+        <activity android:name=".mvp.singletalk.SingleTalkActivity" />
     </application>
 
 </manifest>

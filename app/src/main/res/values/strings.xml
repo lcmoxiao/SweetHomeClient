@@ -17,4 +17,11 @@
     <string name="mail">邮箱</string>
     <string name="phoneNumber">手机</string>
     <string name="userId">唯一标识</string>
+    <string name="changeFriendSize">修改好友数量上限</string>
+    <string name="saveChange">保存资料修改</string>
+    <string name="changePassword">修改密码</string>
+    <string name="logout">退出登录</string>
+    <string name="DestroyUser">注销账户</string>
+    <string name="userState">用户状态</string>
+    <string name="pleaseInput">请输入...</string>
 </resources>

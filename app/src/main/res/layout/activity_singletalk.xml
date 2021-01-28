@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/all_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/activity_singleTalk_stateLayout"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:background="#05555555"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/activity_singleTalk_backBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/activity_singleTalk_dstUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/userName"
+            android:textColor="@color/white"
+            android:textSize="9pt"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/activity_singleTalk_dstUserState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="@string/userState"
+            android:textColor="@color/white"
+            android:textSize="6pt"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/ic_person"
+            app:layout_constraintBottom_toBottomOf="@id/activity_singleTalk_dstUserInfoBtn"
+            app:layout_constraintEnd_toEndOf="@id/activity_singleTalk_dstUserInfoBtn"
+            app:layout_constraintStart_toStartOf="@id/activity_singleTalk_dstUserInfoBtn"
+            app:layout_constraintTop_toTopOf="@id/activity_singleTalk_dstUserInfoBtn" />
+
+        <Button
+            android:id="@+id/activity_singleTalk_dstUserInfoBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_circle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/activity_singleTalk_talkLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#3DD7D7D7"
+        app:layout_constraintBottom_toTopOf="@+id/activity_singleTalk_functionLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_singleTalk_stateLayout" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/activity_singleTalk_functionLayout"
+        android:layout_width="0dp"
+        android:layout_height="104dp"
+        android:background="#21C280FF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_singleTalk_talkLayout">
+
+        <EditText
+            android:id="@+id/activity_singleTalk_inputEt"
+            android:layout_width="250dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/activity_regist_signbtn_selector"
+            android:hint="@string/pleaseInput"
+            android:paddingStart="15dp"
+            android:textSize="6pt"
+            app:cornerRadius="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/activity_singleTalk_sendBtn"
+            android:layout_width="58dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="35dp"
+            android:background="@drawable/activity_singletalk_sendbtn_selector"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textSize="6pt"
+            app:cornerRadius="50dp"
+            app:layout_constraintBottom_toBottomOf="@id/activity_singleTalk_inputEt"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/activity_singleTalk_inputEt" />
+
+        <Button
+            android:id="@+id/activity_singleTalk_makePhotoBtn"
+            android:layout_width="68px"
+            android:layout_height="50px"
+            android:layout_marginLeft="210px"
+            android:background="@drawable/ic_makephoto"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/activity_singleTalk_photoBtn"
+            app:layout_constraintTop_toBottomOf="@+id/activity_singleTalk_inputEt" />
+
+        <Button
+            android:id="@+id/activity_singleTalk_photoBtn"
+            android:layout_width="68px"
+            android:layout_height="50px"
+            android:background="@drawable/ic_photo"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_singleTalk_makePhotoBtn"
+            app:layout_constraintLeft_toRightOf="@+id/activity_singleTalk_makePhotoBtn"
+            app:layout_constraintRight_toLeftOf="@+id/activity_singleTalk_recordBtn"
+            app:layout_constraintTop_toTopOf="@+id/activity_singleTalk_makePhotoBtn" />
+
+        <Button
+            android:id="@+id/activity_singleTalk_recordBtn"
+            android:layout_width="68px"
+            android:layout_height="50px"
+            android:layout_marginRight="210px"
+            android:background="@drawable/ic_record"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_singleTalk_makePhotoBtn"
+            app:layout_constraintLeft_toRightOf="@+id/activity_singleTalk_photoBtn"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/activity_singleTalk_makePhotoBtn" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
