@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/fragment_friend_topPanel"
         android:layout_width="match_parent"
-        android:layout_height="180px"
+        android:layout_height="68dp"
         android:background="#05555555"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/all_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/activity_photo_stateLayout"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:background="#05555555"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/activity_photo_backBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/activity_photo_contentIv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#3DD7D7D7"
+        app:layout_constraintBottom_toTopOf="@+id/activity_photo_functionLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_photo_stateLayout" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/activity_photo_functionLayout"
+        android:layout_width="0dp"
+        android:layout_height="104dp"
+        android:background="#21C280FF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_photo_contentIv">
+
+        <Button
+            android:id="@+id/activity_photo_sendBtn"
+            android:layout_width="58dp"
+            android:layout_height="32dp"
+            android:background="@drawable/activity_singletalk_sendbtn_selector"
+            android:text="@string/send"
+            android:textColor="@color/white"
+            android:textSize="6pt"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteY="36dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

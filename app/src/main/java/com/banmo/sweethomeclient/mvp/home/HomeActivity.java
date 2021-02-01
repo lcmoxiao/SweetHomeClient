@@ -14,19 +14,46 @@ import com.banmo.sweethomeclient.R;
 import com.banmo.sweethomeclient.mvp.home.friend.FriendFragment;
 import com.banmo.sweethomeclient.mvp.home.match.MatchFragment;
 import com.banmo.sweethomeclient.mvp.home.mine.MineFragment;
+import com.banmo.sweethomeclient.mvp.home.msgcenter.MsgCenterFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private static final Fragment[] fragments = new Fragment[4];
+    private static int fragmentIndex = 0;
+    private static FragmentManager manager;
+    private static FragmentTransaction transaction;
     private FrameLayout fragmentSpace;
     private Button findBtn;
     private Button friendBtn;
     private Button mineBtn;
-    private int fragmentIndex = 0;
 
-    private Fragment[] fragments = new Fragment[3];
-    private FragmentManager manager;
-    private FragmentTransaction transaction;
+    public static void switchFragment(int index) {
+        transaction = manager.beginTransaction();
+        if (fragmentIndex != index) {
+            if (fragments[index] == null) {
+                fragments[index] = getFragment(index);
+            }
+            if (!transaction.isEmpty()) transaction.remove(fragments[fragmentIndex]);
+            transaction.replace(R.id.home_fragment_layout, fragments[index]);
+            transaction.commit();
+            fragmentIndex = index;
+        }
+    }
 
+    static Fragment getFragment(int index) {
+        switch (index) {
+            case 0:
+                return new MatchFragment();
+            case 1:
+                return new FriendFragment();
+            case 2:
+                return new MineFragment();
+            case 3:
+                return new MsgCenterFragment();
+            default:
+                return new FriendFragment();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +75,6 @@ public class HomeActivity extends AppCompatActivity {
         initClick();
     }
 
-
     void initClick() {
         findBtn.setOnClickListener(v -> {
             switchFragment(0);
@@ -61,32 +87,6 @@ public class HomeActivity extends AppCompatActivity {
             switchFragment(2);
         });
 
-    }
-
-    void switchFragment(int index) {
-        transaction = manager.beginTransaction();
-        if (fragmentIndex != index) {
-            if (fragments[index] == null) {
-                fragments[index] = getFragment(index);
-            }
-            if (!transaction.isEmpty()) transaction.remove(fragments[fragmentIndex]);
-            transaction.replace(R.id.home_fragment_layout, fragments[index]);
-            transaction.commit();
-            fragmentIndex = index;
-        }
-    }
-
-    Fragment getFragment(int index) {
-        switch (index) {
-            case 0:
-                return new MatchFragment();
-            case 1:
-                return new FriendFragment();
-            case 2:
-                return new MineFragment();
-            default:
-                return new FriendFragment();
-        }
     }
 
 }

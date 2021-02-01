@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/all_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="76dp"
+        android:text="@string/headImg"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="176dp"
+        android:text="@string/createtime"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="252dp"
+        android:text="@string/userName"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="324dp"
+        android:text="@string/sexy"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="396dp"
+        android:text="@string/friendNum"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.banmo.sweethomeclient.customview.CircleImageView
+        android:id="@+id/activity_frienddetail_headImg"
+        android:layout_width="106dp"
+        android:layout_height="106dp"
+        android:layout_marginTop="40dp"
+        android:src="@mipmap/all_background"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintLeft_toLeftOf="@+id/activity_frienddetail_createTimeTv"
+        app:layout_constraintRight_toRightOf="@+id/activity_frienddetail_createTimeTv"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/activity_frienddetail_createTimeTv"
+        android:layout_width="190dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="176dp"
+        android:layout_marginEnd="48dp"
+        android:background="#6680FFFF"
+        android:gravity="center"
+        android:text="@string/createtime"
+        android:textColor="@color/black"
+        android:textSize="8pt"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/activity_frienddetail_usernameTv"
+        android:layout_width="190dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="252dp"
+        android:layout_marginEnd="48dp"
+        android:background="#6680FFFF"
+        android:gravity="center"
+        android:text="@string/userName"
+        android:textColor="@color/black"
+        android:textSize="8pt"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/activity_frienddetail_sexyTv"
+        android:layout_width="190dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="324dp"
+        android:layout_marginEnd="48dp"
+        android:background="#6680FFFF"
+        android:gravity="center"
+        android:text="@string/sexy"
+        android:textColor="@color/black"
+        android:textSize="8pt"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/activity_frienddetail_friendNumTv"
+        android:layout_width="190dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="396dp"
+        android:layout_marginEnd="48dp"
+        android:background="#6680FFFF"
+        android:gravity="center"
+        android:text="@string/_1_2"
+        android:textColor="@color/black"
+        android:textSize="8pt"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/activity_frienddetail_backBtn"
+        android:layout_width="321dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="472dp"
+        android:background="#9951AAE3"
+        android:gravity="center"
+        android:text="@string/back"
+        android:textColor="@color/white"
+        android:textSize="7pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/activity_frienddetail_addFriendBtn"
+        android:layout_width="321dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="548dp"
+        android:background="#7270B603"
+        android:gravity="center"
+        android:text="@string/addFriend"
+        android:textColor="@color/white"
+        android:textSize="7pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/activity_frienddetail_reportBtn"
+        android:layout_width="321dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="624dp"
+        android:background="#ADD03956"
+        android:gravity="center"
+        android:text="@string/report"
+        android:textColor="@color/white"
+        android:textSize="7pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

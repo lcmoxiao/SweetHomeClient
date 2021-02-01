@@ -85,7 +85,6 @@
         android:layout_marginBottom="52dp"
         android:src="@mipmap/all_background"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_mine_idEt"
-        app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintLeft_toLeftOf="@+id/fragment_mine_idEt"
         app:layout_constraintRight_toRightOf="@+id/fragment_mine_idEt" />
 

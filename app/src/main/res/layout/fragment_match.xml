@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3DD7D7D7">
+
+    <TextView
+        android:id="@+id/fragment_match_topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="#05555555"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/find"
+        android:textColor="@color/white"
+        android:textSize="8pt"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_match_topPanel"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragment_match_topPanel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:text="@string/interestselect"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_match_recyclerView"
+        android:layout_width="376dp"
+        android:layout_height="114dp"
+        android:layout_marginTop="130dp"
+        android:background="#23FFFFFF"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="356dp"
+        android:gravity="center"
+        android:text="@string/interest"
+        android:textColor="#5881F0"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:layout_width="184dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="356dp"
+        android:background="#1981D3F8"
+        android:gravity="center"
+        android:text="@string/interest"
+        android:textColor="#5881F0"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="420dp"
+        android:gravity="center"
+        android:text="@string/age"
+        android:textColor="#5881F0"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/fragment_match_manBtn"
+        android:layout_width="50dp"
+        android:layout_height="33dp"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="484dp"
+        android:background="#1981D3F8"
+        android:gravity="center"
+        android:text="@string/man"
+        android:textColor="#5881F0"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/fragment_match_manwomanBtn"
+        android:layout_width="50dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="484dp"
+        android:background="#1981D3F8"
+        android:gravity="center"
+        android:text="@string/manwoman"
+        android:textColor="#5881F0"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="@+id/fragment_match_manBtn"
+        app:layout_constraintRight_toRightOf="@+id/fragment_match_womanBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/fragment_match_womanBtn"
+        android:layout_width="50dp"
+        android:layout_height="33dp"
+        android:layout_marginLeft="272dp"
+        android:layout_marginTop="484dp"
+        android:background="#1981D3F8"
+        android:gravity="center"
+        android:text="@string/woman"
+        android:textColor="#5881F0"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="420dp"
+        android:background="#1981D3F8"
+        android:gravity="center"
+        android:text="@string/_2"
+        android:textColor="#5881F0"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="@+id/fragment_match_manwomanBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="420dp"
+        android:background="#1981D3F8"
+        android:gravity="center"
+        android:text="@string/_1"
+        android:textColor="#5881F0"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="@id/fragment_match_manBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="420dp"
+        android:background="#1981D3F8"
+        android:gravity="center"
+        android:text="@string/sui"
+        android:textColor="#5881F0"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="@+id/fragment_match_womanBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="484dp"
+        android:text="@string/sexy"
+        android:textColor="#5881F0"
+        android:textSize="8pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/fragment_match_groupMatchBtn"
+        android:layout_width="240dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="280dp"
+        android:background="#9951AAE3"
+        android:gravity="center"
+        android:text="@string/groupmatch"
+        android:textColor="@color/white"
+        android:textSize="7pt"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/fragment_match_singleMatchBtn"
+        android:layout_width="240dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="548dp"
+        android:background="#9951AAE3"
+        android:gravity="center"
+        android:text="@string/singlematch"
+        android:textColor="@color/white"
+        android:textSize="7pt"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

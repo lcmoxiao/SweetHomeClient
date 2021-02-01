@@ -24,4 +24,27 @@
     <string name="DestroyUser">注销账户</string>
     <string name="userState">用户状态</string>
     <string name="pleaseInput">请输入...</string>
+    <string name="send">发送</string>
+    <string name="clickStartRecord">点击录音</string>
+    <string name="time00_00_01">00:00:01</string>
+    <string name="time000001000013">00:00:01/00:00:13</string>
+    <string name="rerecord">重录</string>
+    <string name="play">播放</string>
+    <string name="friendNum">好友数量</string>
+    <string name="_1_2">1/2</string>
+    <string name="back">返回</string>
+    <string name="addFriend">加为好友</string>
+    <string name="report">举报</string>
+    <string name="find">找</string>
+    <string name="interestselect">兴趣选择</string>
+    <string name="groupmatch">群组匹配</string>
+    <string name="singlematch">单人匹配</string>
+    <string name="interest">兴趣</string>
+    <string name="age">年龄</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="sui">岁</string>
+    <string name="man">男</string>
+    <string name="manwoman">中</string>
+    <string name="woman">女</string>
 </resources>

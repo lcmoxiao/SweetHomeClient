@@ -24,6 +24,8 @@ import com.banmo.sweethomeclient.mvp.singletalk.SingleTalkActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.banmo.sweethomeclient.mvp.home.HomeActivity.switchFragment;
+
 public class FriendFragment extends Fragment {
 
     private View mRootView;
@@ -50,6 +52,10 @@ public class FriendFragment extends Fragment {
     public void onStart() {
         super.onStart();
         friendNumTv.setText("2/2");
+        friendRemind.setOnClickListener(v -> {
+            switchFragment(3);
+        });
+
         initMsgList();
     }
 
@@ -66,7 +72,7 @@ public class FriendFragment extends Fragment {
                 LinearLayoutManager.VERTICAL,
                 false
         ));
-        recyclerView.setAdapter(new MsgAdapter(msgDateBeans));
+        recyclerView.setAdapter(new MsgAdapter(this, msgDateBeans));
     }
 
     private static class MsgDateBean {
@@ -122,24 +128,26 @@ public class FriendFragment extends Fragment {
         }
     }
 
-    private class MsgAdapter extends RecyclerView.Adapter<MsgViewHolder> {
+    private static class MsgAdapter extends RecyclerView.Adapter<FriendFragment.MsgViewHolder> {
 
-        private final List<MsgDateBean> msgDateBeans;
+        private final FriendFragment friendFragment;
+        private final List<FriendFragment.MsgDateBean> msgDateBeans;
 
-        MsgAdapter(@NonNull List<MsgDateBean> msgDateBeans) {
+        MsgAdapter(FriendFragment friendFragment, @NonNull List<FriendFragment.MsgDateBean> msgDateBeans) {
+            this.friendFragment = friendFragment;
             this.msgDateBeans = msgDateBeans;
         }
 
         @NonNull
         @Override
-        public MsgViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View msgView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_friend_msg_item, parent, false);
-            return new MsgViewHolder(msgView);
+        public FriendFragment.MsgViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View msgView = LayoutInflater.from(friendFragment.getContext()).inflate(R.layout.fragment_friend_msg_item, parent, false);
+            return new FriendFragment.MsgViewHolder(msgView);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MsgViewHolder holder, int position) {
-            MsgDateBean msgDateBean = msgDateBeans.get(position);
+        public void onBindViewHolder(@NonNull FriendFragment.MsgViewHolder holder, int position) {
+            FriendFragment.MsgDateBean msgDateBean = msgDateBeans.get(position);
             String username = msgDateBean.getName();
 
             holder.headIv.setImageBitmap(msgDateBean.getHeadImg());
@@ -147,11 +155,11 @@ public class FriendFragment extends Fragment {
             holder.lastMsgTv.setText(msgDateBean.getLastMsg());
             holder.lastTimeTv.setText(msgDateBean.getLastTime());
             holder.itemView.setOnClickListener(v -> {
-                Intent intent = new Intent(getContext(), SingleTalkActivity.class);
+                Intent intent = new Intent(friendFragment.getContext(), SingleTalkActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("dstUsername", msgDateBean.getName());
                 intent.putExtra("dstUserState", msgDateBean.getState());
-                startActivity(intent);
+                friendFragment.startActivity(intent);
             });
 
         }
