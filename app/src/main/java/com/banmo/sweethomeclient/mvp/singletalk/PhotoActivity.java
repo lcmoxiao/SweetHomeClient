@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.banmo.sweethomeclient.R;
 
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.Date;
 
 import static com.banmo.sweethomeclient.mvp.singletalk.SingleTalkActivity.adapter;
 
@@ -48,7 +50,13 @@ public class PhotoActivity extends AppCompatActivity {
         sendBtn.setOnClickListener(v -> {
             Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
             bmp.eraseColor(Color.parseColor("#FFEC808D"));
-            adapter.addItem(new MsgDateBean(bmp, "LC", "吃了吗", 3, true, tmpImg));
+
+            int bytes = tmpImg.getByteCount();
+            ByteBuffer buf = ByteBuffer.allocate(bytes);
+            bmp.copyPixelsToBuffer(buf);
+            byte[] byteArray = buf.array();
+
+            adapter.addItem(new MsgDateBean(bmp, byteArray, new Date().toString(), 0, 3));
             finish();
         });
 

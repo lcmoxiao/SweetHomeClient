@@ -3,11 +3,20 @@ package com.banmo.sweethomeclient.mvp.regist;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.banmo.sweethomeclient.proto.User;
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.UUID;
+
+import static com.banmo.sweethomeclient.client.tool.OkHttpTools.post;
+
+
 class RegistPresenterImpl implements IRegistPresenter {
 
-    private IRegistView registView; //视图
+    private final IRegistView registView; //视图
 
-    private Handler handler;
+    private final Handler handler;
 
     public RegistPresenterImpl(IRegistView registView) {
         this.registView = registView;
@@ -16,17 +25,28 @@ class RegistPresenterImpl implements IRegistPresenter {
 
     @Override
     public void doRegist(String mail, String pwd) {
-
-        boolean result = checkRegist(mail, pwd);
-        if (!result) clear();
-        handler.postDelayed(() -> registView.onRegistResult(result), 500);
-
+        User user = new User();
+        user.setUsermail(mail);
+        user.setUserpassword(pwd);
+        user.setUsername(UUID.randomUUID().toString());
+        Gson gson = new Gson();
+        new Thread(() -> {
+            String resp = null;
+            try {
+                resp = post("user", gson.toJson(user));
+            } catch (IOException e) {
+                e.printStackTrace();
+                handler.postDelayed(() -> registView.onRegistResult(false), 1);
+            }
+            if (resp.equals("-2") || resp.equals("")) {
+                clear();
+                handler.postDelayed(() -> registView.onRegistResult(false), 1);
+            } else {
+                handler.postDelayed(() -> registView.onRegistResult(true), 1);
+            }
+        }).start();
     }
 
-    //ToDo 使用rest申请注册
-    private boolean checkRegist(String mail, String pwd) {
-        return mail.equals("a") && pwd.equals("1");
-    }
 
     @Override
     public void clear() {

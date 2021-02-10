@@ -1,8 +1,9 @@
 package com.banmo.sweethomeclient.client;
 
+import android.util.Log;
 
 import com.banmo.sweethomeclient.client.handler.BeatClientHandler;
-import com.banmo.sweethomeclient.client.handler.TransHandler;
+import com.banmo.sweethomeclient.client.handler.MsgHandler;
 import com.banmo.sweethomeclient.proto.ConnectorMsg;
 
 import java.util.concurrent.TimeUnit;
@@ -27,31 +28,17 @@ import io.netty.handler.timeout.IdleStateHandler;
 
 public class ConnectorClient {
     static int port = 8081;
-    static String host = "192.168.0.106";
+    static String host = "192.168.0.105";
     static Channel channel;
 
     public static Channel getChannel() {
         return channel;
     }
 
-//    public static void main(String[] args) {
-//        if (args != null && args.length > 0) {
-//            try {
-//                port = Integer.parseInt(args[0]);
-//            } catch (NumberFormatException ignored) {
-//
-//            }
-//        }
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                ConnectorClient.connect(port, host, handlers);
-//            }
-//        }.start();
-//        new UserFunction().test();
-//    }
+
 
     public static void connect() {
+        Log.e("ConnectorClient","连接中");
         EventLoopGroup group = new NioEventLoopGroup();
 
         try {
@@ -70,7 +57,7 @@ public class ConnectorClient {
                                     new ProtobufEncoder(),
                                     new IdleStateHandler(3, 3, 0, TimeUnit.SECONDS),
                                     new BeatClientHandler(),
-                                    new TransHandler()
+                                    new MsgHandler()
                             };
                             sc.pipeline().addLast(handlers);
                         }

@@ -99,6 +99,7 @@
         android:text="@string/username"
         android:textColor="@color/black"
         android:textSize="8pt"
+        android:focusable="false"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -112,7 +113,7 @@
         android:gravity="center"
         android:text="@string/createtime"
         android:textColor="@color/black"
-        android:textSize="8pt"
+        android:textSize="6pt"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -130,19 +131,23 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/fragment_mine_sexyEt"
+    <Spinner
+        android:prompt="@string/sexy"
+        android:entries="@array/sexy"
+        android:id="@+id/fragment_mine_sexySp"
         android:layout_width="190dp"
         android:layout_height="33dp"
         android:layout_marginTop="316dp"
         android:layout_marginEnd="48dp"
+        android:textAlignment="center"
         android:background="#6680FFFF"
         android:gravity="center"
-        android:text="@string/sexy"
         android:textColor="@color/black"
         android:textSize="8pt"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+    </Spinner>
+
 
     <EditText
         android:id="@+id/fragment_mine_mailEt"

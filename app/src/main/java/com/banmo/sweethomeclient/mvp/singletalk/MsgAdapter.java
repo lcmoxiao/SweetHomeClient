@@ -1,6 +1,7 @@
 package com.banmo.sweethomeclient.mvp.singletalk;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -54,17 +55,17 @@ public class MsgAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (msgDateBean.getMsgType() == 0 || msgDateBean.getMsgType() == 1) {
             TextMsgViewHolder tholder = (TextMsgViewHolder) holder;
             tholder.headIv.setImageBitmap(msgDateBean.getHeadImg());
-            tholder.msgTv.setText(msgDateBean.getMsg());
+            tholder.msgTv.setText(new String(msgDateBean.getContent()));
             tholder.timeTv.setText(msgDateBean.getTime());
         } else if (msgDateBean.getMsgType() == 2 || msgDateBean.getMsgType() == 3) {
             ImgMsgViewHolder iholder = (ImgMsgViewHolder) holder;
             iholder.headIv.setImageBitmap(msgDateBean.getHeadImg());
-            iholder.msgIv.setImageBitmap(msgDateBean.getImgContent());
+            iholder.msgIv.setImageBitmap(BitmapFactory.decodeByteArray(msgDateBean.getContent(), 0, msgDateBean.getContent().length));
             iholder.timeTv.setText(msgDateBean.getTime());
         } else if (msgDateBean.getMsgType() == 4 || msgDateBean.getMsgType() == 5) {
             TextMsgViewHolder tholder = (TextMsgViewHolder) holder;
             tholder.headIv.setImageBitmap(msgDateBean.getHeadImg());
-            tholder.msgTv.setText(msgDateBean.getMsg());
+            tholder.msgTv.setText(new String(msgDateBean.getContent()));
             tholder.msgTv.setGravity(Gravity.CENTER);
             tholder.msgTv.setBackgroundColor(Color.parseColor("#FFEC808D"));
             tholder.timeTv.setText(msgDateBean.getTime());

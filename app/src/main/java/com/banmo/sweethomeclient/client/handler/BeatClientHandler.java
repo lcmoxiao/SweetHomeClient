@@ -1,6 +1,8 @@
 package com.banmo.sweethomeclient.client.handler;
 
+
 import com.banmo.sweethomeclient.client.ConnectorClient;
+import com.banmo.sweethomeclient.client.UserInfos;
 import com.banmo.sweethomeclient.proto.ConnectorMsg;
 
 import io.netty.channel.ChannelHandler;
@@ -8,13 +10,13 @@ import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleStateEvent;
 
-import static com.banmo.sweethomeclient.client.MsgGenerate.generateBeatMessage;
+import static com.banmo.sweethomeclient.client.tool.MsgGenerateTools.generateBeatMessage;
+import static com.banmo.sweethomeclient.client.tool.MsgGenerateTools.generateConnectMessage;
 
 
 @ChannelHandler.Sharable
 public class BeatClientHandler extends ChannelHandlerAdapter {
 
-    private boolean isFirst = true;
     private int readIdleTimes = 0;
     private int writeIdleTimes = 0;
     private int reconnectTimes = 0;
@@ -25,15 +27,6 @@ public class BeatClientHandler extends ChannelHandlerAdapter {
         writeIdleTimes = 0;
         reconnectTimes = 0;
     }
-
-//    @Override
-//    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-//        if (isFirst) {
-//            System.out.println("channelActive First");
-//            ctx.writeAndFlush(generateBeatMessage());
-//            isFirst = false;
-//        }
-//    }
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
@@ -54,11 +47,12 @@ public class BeatClientHandler extends ChannelHandlerAdapter {
         }
 //        System.out.println(ctx.channel().remoteAddress() + "超时事件：" + eventType);
         if (Math.max(readIdleTimes, writeIdleTimes) > 1) {
-            System.out.println("超过3s未有读写，尝试确认连接,第" + ++reconnectTimes + "次");
+//            System.out.println("超过3s未有读写，尝试确认连接,第" + ++reconnectTimes + "次");
             ctx.channel().writeAndFlush(generateBeatMessage());
         }
         if (Math.max(readIdleTimes, writeIdleTimes) > 2) {
-            System.out.println("主动确认连接失败，断开连接,尝试重连");
+//            System.out.println("主动确认连接失败，断开连接,尝试重连");
+            ctx.writeAndFlush(generateConnectMessage(UserInfos.user.getUserid()));
             ConnectorClient.reconnect();
             ctx.channel().close();
         }
@@ -70,7 +64,7 @@ public class BeatClientHandler extends ChannelHandlerAdapter {
 
         if (cmsg.getCMsgType() == ConnectorMsg.cMsgInfo.CMsgType.BEAT) {
             resetIdleTimes();
-            System.out.println("得到服务器的beat信息，重置超时计时器");
+//            System.out.println("得到服务器的beat信息，重置超时计时器");
         } else {
             //System.out.println("非beat信息向下传递");
             ctx.fireChannelRead(msg);

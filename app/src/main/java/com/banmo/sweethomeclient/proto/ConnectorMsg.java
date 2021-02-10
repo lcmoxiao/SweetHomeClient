@@ -72,6 +72,21 @@ public final class ConnectorMsg {
      */
     ConnectOrBuilder getConnectOrBuilder();
 
+    /**
+     * <code>.FindMatch findmatch = 5;</code>
+     * @return Whether the findmatch field is set.
+     */
+    boolean hasFindmatch();
+    /**
+     * <code>.FindMatch findmatch = 5;</code>
+     * @return The findmatch.
+     */
+    FindMatch getFindmatch();
+    /**
+     * <code>.FindMatch findmatch = 5;</code>
+     */
+    FindMatchOrBuilder getFindmatchOrBuilder();
+
     public cMsgInfo.DataBodyCase getDataBodyCase();
   }
   /**
@@ -168,6 +183,20 @@ public final class ConnectorMsg {
               dataBodyCase_ = 4;
               break;
             }
+            case 42: {
+              FindMatch.Builder subBuilder = null;
+              if (dataBodyCase_ == 5) {
+                subBuilder = ((FindMatch) dataBody_).toBuilder();
+              }
+              dataBody_ =
+                  input.readMessage(FindMatch.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((FindMatch) dataBody_);
+                dataBody_ = subBuilder.buildPartial();
+              }
+              dataBodyCase_ = 5;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -217,6 +246,10 @@ public final class ConnectorMsg {
        * <code>CONNECT = 2;</code>
        */
       CONNECT(2),
+      /**
+       * <code>MATCH = 3;</code>
+       */
+      MATCH(3),
       UNRECOGNIZED(-1),
       ;
 
@@ -232,6 +265,10 @@ public final class ConnectorMsg {
        * <code>CONNECT = 2;</code>
        */
       public static final int CONNECT_VALUE = 2;
+      /**
+       * <code>MATCH = 3;</code>
+       */
+      public static final int MATCH_VALUE = 3;
 
 
       public final int getNumber() {
@@ -261,6 +298,7 @@ public final class ConnectorMsg {
           case 0: return BEAT;
           case 1: return TRANS;
           case 2: return CONNECT;
+          case 3: return MATCH;
           default: return null;
         }
       }
@@ -325,6 +363,7 @@ public final class ConnectorMsg {
       BEAT(2),
       TRANS(3),
       CONNECT(4),
+      FINDMATCH(5),
       DATABODY_NOT_SET(0);
       private final int value;
       private DataBodyCase(int value) {
@@ -345,6 +384,7 @@ public final class ConnectorMsg {
           case 2: return BEAT;
           case 3: return TRANS;
           case 4: return CONNECT;
+          case 5: return FINDMATCH;
           case 0: return DATABODY_NOT_SET;
           default: return null;
         }
@@ -472,6 +512,37 @@ public final class ConnectorMsg {
       return Connect.getDefaultInstance();
     }
 
+    public static final int FINDMATCH_FIELD_NUMBER = 5;
+    /**
+     * <code>.FindMatch findmatch = 5;</code>
+     * @return Whether the findmatch field is set.
+     */
+    @Override
+    public boolean hasFindmatch() {
+      return dataBodyCase_ == 5;
+    }
+    /**
+     * <code>.FindMatch findmatch = 5;</code>
+     * @return The findmatch.
+     */
+    @Override
+    public FindMatch getFindmatch() {
+      if (dataBodyCase_ == 5) {
+         return (FindMatch) dataBody_;
+      }
+      return FindMatch.getDefaultInstance();
+    }
+    /**
+     * <code>.FindMatch findmatch = 5;</code>
+     */
+    @Override
+    public FindMatchOrBuilder getFindmatchOrBuilder() {
+      if (dataBodyCase_ == 5) {
+         return (FindMatch) dataBody_;
+      }
+      return FindMatch.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -498,6 +569,9 @@ public final class ConnectorMsg {
       if (dataBodyCase_ == 4) {
         output.writeMessage(4, (Connect) dataBody_);
       }
+      if (dataBodyCase_ == 5) {
+        output.writeMessage(5, (FindMatch) dataBody_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -522,6 +596,10 @@ public final class ConnectorMsg {
       if (dataBodyCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, (Connect) dataBody_);
+      }
+      if (dataBodyCase_ == 5) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, (FindMatch) dataBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -553,6 +631,10 @@ public final class ConnectorMsg {
           if (!getConnect()
               .equals(other.getConnect())) return false;
           break;
+        case 5:
+          if (!getFindmatch()
+              .equals(other.getFindmatch())) return false;
+          break;
         case 0:
         default:
       }
@@ -581,6 +663,10 @@ public final class ConnectorMsg {
         case 4:
           hash = (37 * hash) + CONNECT_FIELD_NUMBER;
           hash = (53 * hash) + getConnect().hashCode();
+          break;
+        case 5:
+          hash = (37 * hash) + FINDMATCH_FIELD_NUMBER;
+          hash = (53 * hash) + getFindmatch().hashCode();
           break;
         case 0:
         default:
@@ -770,6 +856,13 @@ public final class ConnectorMsg {
             result.dataBody_ = connectBuilder_.build();
           }
         }
+        if (dataBodyCase_ == 5) {
+          if (findmatchBuilder_ == null) {
+            result.dataBody_ = dataBody_;
+          } else {
+            result.dataBody_ = findmatchBuilder_.build();
+          }
+        }
         result.dataBodyCase_ = dataBodyCase_;
         onBuilt();
         return result;
@@ -833,6 +926,10 @@ public final class ConnectorMsg {
           }
           case CONNECT: {
             mergeConnect(other.getConnect());
+            break;
+          }
+          case FINDMATCH: {
+            mergeFindmatch(other.getFindmatch());
             break;
           }
           case DATABODY_NOT_SET: {
@@ -1358,6 +1455,147 @@ public final class ConnectorMsg {
         dataBodyCase_ = 4;
         onChanged();;
         return connectBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FindMatch, FindMatch.Builder, FindMatchOrBuilder> findmatchBuilder_;
+      /**
+       * <code>.FindMatch findmatch = 5;</code>
+       * @return Whether the findmatch field is set.
+       */
+      @Override
+      public boolean hasFindmatch() {
+        return dataBodyCase_ == 5;
+      }
+      /**
+       * <code>.FindMatch findmatch = 5;</code>
+       * @return The findmatch.
+       */
+      @Override
+      public FindMatch getFindmatch() {
+        if (findmatchBuilder_ == null) {
+          if (dataBodyCase_ == 5) {
+            return (FindMatch) dataBody_;
+          }
+          return FindMatch.getDefaultInstance();
+        } else {
+          if (dataBodyCase_ == 5) {
+            return findmatchBuilder_.getMessage();
+          }
+          return FindMatch.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FindMatch findmatch = 5;</code>
+       */
+      public Builder setFindmatch(FindMatch value) {
+        if (findmatchBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dataBody_ = value;
+          onChanged();
+        } else {
+          findmatchBuilder_.setMessage(value);
+        }
+        dataBodyCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.FindMatch findmatch = 5;</code>
+       */
+      public Builder setFindmatch(
+          FindMatch.Builder builderForValue) {
+        if (findmatchBuilder_ == null) {
+          dataBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          findmatchBuilder_.setMessage(builderForValue.build());
+        }
+        dataBodyCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.FindMatch findmatch = 5;</code>
+       */
+      public Builder mergeFindmatch(FindMatch value) {
+        if (findmatchBuilder_ == null) {
+          if (dataBodyCase_ == 5 &&
+              dataBody_ != FindMatch.getDefaultInstance()) {
+            dataBody_ = FindMatch.newBuilder((FindMatch) dataBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dataBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dataBodyCase_ == 5) {
+            findmatchBuilder_.mergeFrom(value);
+          }
+          findmatchBuilder_.setMessage(value);
+        }
+        dataBodyCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.FindMatch findmatch = 5;</code>
+       */
+      public Builder clearFindmatch() {
+        if (findmatchBuilder_ == null) {
+          if (dataBodyCase_ == 5) {
+            dataBodyCase_ = 0;
+            dataBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dataBodyCase_ == 5) {
+            dataBodyCase_ = 0;
+            dataBody_ = null;
+          }
+          findmatchBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.FindMatch findmatch = 5;</code>
+       */
+      public FindMatch.Builder getFindmatchBuilder() {
+        return getFindmatchFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.FindMatch findmatch = 5;</code>
+       */
+      @Override
+      public FindMatchOrBuilder getFindmatchOrBuilder() {
+        if ((dataBodyCase_ == 5) && (findmatchBuilder_ != null)) {
+          return findmatchBuilder_.getMessageOrBuilder();
+        } else {
+          if (dataBodyCase_ == 5) {
+            return (FindMatch) dataBody_;
+          }
+          return FindMatch.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FindMatch findmatch = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FindMatch, FindMatch.Builder, FindMatchOrBuilder>
+          getFindmatchFieldBuilder() {
+        if (findmatchBuilder_ == null) {
+          if (!(dataBodyCase_ == 5)) {
+            dataBody_ = FindMatch.getDefaultInstance();
+          }
+          findmatchBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              FindMatch, FindMatch.Builder, FindMatchOrBuilder>(
+                  (FindMatch) dataBody_,
+                  getParentForChildren(),
+                  isClean());
+          dataBody_ = null;
+        }
+        dataBodyCase_ = 5;
+        onChanged();;
+        return findmatchBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -1995,6 +2233,12 @@ public final class ConnectorMsg {
     int getDstUserid();
 
     /**
+     * <code>int32 dstGroupid = 31;</code>
+     * @return The dstGroupid.
+     */
+    int getDstGroupid();
+
+    /**
      * <code>.Trans.MsgType msgType = 4;</code>
      * @return The enum numeric value on the wire for msgType.
      */
@@ -2012,6 +2256,10 @@ public final class ConnectorMsg {
     com.google.protobuf.ByteString getMsgContent();
 
     /**
+     * <pre>
+     * 默认为0，重传为1
+     * </pre>
+     *
      * <code>int32 msgMark = 6;</code>
      * @return The msgMark.
      */
@@ -2104,6 +2352,11 @@ public final class ConnectorMsg {
             case 56: {
 
               retryTimes_ = input.readInt32();
+              break;
+            }
+            case 248: {
+
+              dstGroupid_ = input.readInt32();
               break;
             }
             default: {
@@ -2288,6 +2541,17 @@ public final class ConnectorMsg {
       return dstUserid_;
     }
 
+    public static final int DSTGROUPID_FIELD_NUMBER = 31;
+    private int dstGroupid_;
+    /**
+     * <code>int32 dstGroupid = 31;</code>
+     * @return The dstGroupid.
+     */
+    @Override
+    public int getDstGroupid() {
+      return dstGroupid_;
+    }
+
     public static final int MSGTYPE_FIELD_NUMBER = 4;
     private int msgType_;
     /**
@@ -2321,6 +2585,10 @@ public final class ConnectorMsg {
     public static final int MSGMARK_FIELD_NUMBER = 6;
     private int msgMark_;
     /**
+     * <pre>
+     * 默认为0，重传为1
+     * </pre>
+     *
      * <code>int32 msgMark = 6;</code>
      * @return The msgMark.
      */
@@ -2375,6 +2643,9 @@ public final class ConnectorMsg {
       if (retryTimes_ != 0) {
         output.writeInt32(7, retryTimes_);
       }
+      if (dstGroupid_ != 0) {
+        output.writeInt32(31, dstGroupid_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2412,6 +2683,10 @@ public final class ConnectorMsg {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, retryTimes_);
       }
+      if (dstGroupid_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(31, dstGroupid_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2433,6 +2708,8 @@ public final class ConnectorMsg {
           != other.getSrcUserid()) return false;
       if (getDstUserid()
           != other.getDstUserid()) return false;
+      if (getDstGroupid()
+          != other.getDstGroupid()) return false;
       if (msgType_ != other.msgType_) return false;
       if (!getMsgContent()
           .equals(other.getMsgContent())) return false;
@@ -2457,6 +2734,8 @@ public final class ConnectorMsg {
       hash = (53 * hash) + getSrcUserid();
       hash = (37 * hash) + DSTUSERID_FIELD_NUMBER;
       hash = (53 * hash) + getDstUserid();
+      hash = (37 * hash) + DSTGROUPID_FIELD_NUMBER;
+      hash = (53 * hash) + getDstGroupid();
       hash = (37 * hash) + MSGTYPE_FIELD_NUMBER;
       hash = (53 * hash) + msgType_;
       hash = (37 * hash) + MSGCONTENT_FIELD_NUMBER;
@@ -2604,6 +2883,8 @@ public final class ConnectorMsg {
 
         dstUserid_ = 0;
 
+        dstGroupid_ = 0;
+
         msgType_ = 0;
 
         msgContent_ = com.google.protobuf.ByteString.EMPTY;
@@ -2641,6 +2922,7 @@ public final class ConnectorMsg {
         result.msgID_ = msgID_;
         result.srcUserid_ = srcUserid_;
         result.dstUserid_ = dstUserid_;
+        result.dstGroupid_ = dstGroupid_;
         result.msgType_ = msgType_;
         result.msgContent_ = msgContent_;
         result.msgMark_ = msgMark_;
@@ -2701,6 +2983,9 @@ public final class ConnectorMsg {
         }
         if (other.getDstUserid() != 0) {
           setDstUserid(other.getDstUserid());
+        }
+        if (other.getDstGroupid() != 0) {
+          setDstGroupid(other.getDstGroupid());
         }
         if (other.msgType_ != 0) {
           setMsgTypeValue(other.getMsgTypeValue());
@@ -2836,6 +3121,37 @@ public final class ConnectorMsg {
         return this;
       }
 
+      private int dstGroupid_ ;
+      /**
+       * <code>int32 dstGroupid = 31;</code>
+       * @return The dstGroupid.
+       */
+      @Override
+      public int getDstGroupid() {
+        return dstGroupid_;
+      }
+      /**
+       * <code>int32 dstGroupid = 31;</code>
+       * @param value The dstGroupid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDstGroupid(int value) {
+        
+        dstGroupid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 dstGroupid = 31;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDstGroupid() {
+        
+        dstGroupid_ = 0;
+        onChanged();
+        return this;
+      }
+
       private int msgType_ = 0;
       /**
        * <code>.Trans.MsgType msgType = 4;</code>
@@ -2926,6 +3242,10 @@ public final class ConnectorMsg {
 
       private int msgMark_ ;
       /**
+       * <pre>
+       * 默认为0，重传为1
+       * </pre>
+       *
        * <code>int32 msgMark = 6;</code>
        * @return The msgMark.
        */
@@ -2934,6 +3254,10 @@ public final class ConnectorMsg {
         return msgMark_;
       }
       /**
+       * <pre>
+       * 默认为0，重传为1
+       * </pre>
+       *
        * <code>int32 msgMark = 6;</code>
        * @param value The msgMark to set.
        * @return This builder for chaining.
@@ -2945,6 +3269,10 @@ public final class ConnectorMsg {
         return this;
       }
       /**
+       * <pre>
+       * 默认为0，重传为1
+       * </pre>
+       *
        * <code>int32 msgMark = 6;</code>
        * @return This builder for chaining.
        */
@@ -3838,6 +4166,11 @@ public final class ConnectorMsg {
     int getDstAgeRange();
 
     /**
+     * <pre>
+     * 服务器接收 其他表示单体匹配；-1 表示群匹配；-2表示主动取消；-3表示拒绝
+     * 客户端接收 其他表示匹配成功；-3 表示匹配被断开
+     * </pre>
+     *
      * <code>int32 dstSex = 3;</code>
      * @return The dstSex.
      */
@@ -3994,6 +4327,11 @@ public final class ConnectorMsg {
     public static final int DSTSEX_FIELD_NUMBER = 3;
     private int dstSex_;
     /**
+     * <pre>
+     * 服务器接收 其他表示单体匹配；-1 表示群匹配；-2表示主动取消；-3表示拒绝
+     * 客户端接收 其他表示匹配成功；-3 表示匹配被断开
+     * </pre>
+     *
      * <code>int32 dstSex = 3;</code>
      * @return The dstSex.
      */
@@ -4531,6 +4869,11 @@ public final class ConnectorMsg {
 
       private int dstSex_ ;
       /**
+       * <pre>
+       * 服务器接收 其他表示单体匹配；-1 表示群匹配；-2表示主动取消；-3表示拒绝
+       * 客户端接收 其他表示匹配成功；-3 表示匹配被断开
+       * </pre>
+       *
        * <code>int32 dstSex = 3;</code>
        * @return The dstSex.
        */
@@ -4539,6 +4882,11 @@ public final class ConnectorMsg {
         return dstSex_;
       }
       /**
+       * <pre>
+       * 服务器接收 其他表示单体匹配；-1 表示群匹配；-2表示主动取消；-3表示拒绝
+       * 客户端接收 其他表示匹配成功；-3 表示匹配被断开
+       * </pre>
+       *
        * <code>int32 dstSex = 3;</code>
        * @param value The dstSex to set.
        * @return This builder for chaining.
@@ -4550,6 +4898,11 @@ public final class ConnectorMsg {
         return this;
       }
       /**
+       * <pre>
+       * 服务器接收 其他表示单体匹配；-1 表示群匹配；-2表示主动取消；-3表示拒绝
+       * 客户端接收 其他表示匹配成功；-3 表示匹配被断开
+       * </pre>
+       *
        * <code>int32 dstSex = 3;</code>
        * @return This builder for chaining.
        */
@@ -5310,25 +5663,27 @@ public final class ConnectorMsg {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\035protofiles/connectorMsg.proto\"\267\001\n\010cMsg" +
+      "\n\035protofiles/connectorMsg.proto\"\343\001\n\010cMsg" +
       "Info\022$\n\010cMsgType\030\001 \001(\0162\022.cMsgInfo.CMsgTy" +
       "pe\022\025\n\004beat\030\002 \001(\0132\005.BeatH\000\022\027\n\005trans\030\003 \001(\013" +
-      "2\006.TransH\000\022\033\n\007connect\030\004 \001(\0132\010.ConnectH\000\"" +
-      ",\n\010CMsgType\022\010\n\004BEAT\020\000\022\t\n\005TRANS\020\001\022\013\n\007CONN" +
-      "ECT\020\002B\n\n\010dataBody\"1\n\004Beat\022\023\n\013requesttime" +
-      "\030\001 \001(\003\022\024\n\014responsetime\030\002 \001(\003\"\301\001\n\005Trans\022\r" +
-      "\n\005msgID\030\001 \001(\005\022\021\n\tsrcUserid\030\002 \001(\005\022\021\n\tdstU" +
-      "serid\030\003 \001(\005\022\037\n\007msgType\030\004 \001(\0162\016.Trans.Msg" +
-      "Type\022\022\n\nmsgContent\030\005 \001(\014\022\017\n\007msgMark\030\006 \001(" +
-      "\005\022\022\n\nretryTimes\030\007 \001(\005\")\n\007MsgType\022\010\n\004WORD" +
-      "\020\000\022\t\n\005PHOTO\020\001\022\t\n\005VOICE\020\002\"v\n\007Connect\022\016\n\006u" +
-      "serid\030\001 \001(\005\022!\n\007msgType\030\002 \001(\0162\020.Connect.M" +
-      "sgType\022\024\n\014responsetime\030\003 \001(\003\"\"\n\007MsgType\022" +
-      "\n\n\006ONLINE\020\000\022\013\n\007OFFLINE\020\001\"_\n\tFindMatch\022\033\n" +
-      "\010userInfo\030\001 \001(\0132\t.UserInfo\022\023\n\013dstAgeRang" +
-      "e\030\002 \001(\005\022\016\n\006dstSex\030\003 \001(\005\022\020\n\010dstHobby\030\004 \001(" +
-      "\005\"4\n\010UserInfo\022\016\n\006userid\030\001 \001(\005\022\013\n\003sex\030\002 \001" +
-      "(\005\022\013\n\003age\030\003 \001(\005B\016B\014ConnectorMsgb\006proto3"
+      "2\006.TransH\000\022\033\n\007connect\030\004 \001(\0132\010.ConnectH\000\022" +
+      "\037\n\tfindmatch\030\005 \001(\0132\n.FindMatchH\000\"7\n\010CMsg" +
+      "Type\022\010\n\004BEAT\020\000\022\t\n\005TRANS\020\001\022\013\n\007CONNECT\020\002\022\t" +
+      "\n\005MATCH\020\003B\n\n\010dataBody\"1\n\004Beat\022\023\n\013request" +
+      "time\030\001 \001(\003\022\024\n\014responsetime\030\002 \001(\003\"\325\001\n\005Tra" +
+      "ns\022\r\n\005msgID\030\001 \001(\005\022\021\n\tsrcUserid\030\002 \001(\005\022\021\n\t" +
+      "dstUserid\030\003 \001(\005\022\022\n\ndstGroupid\030\037 \001(\005\022\037\n\007m" +
+      "sgType\030\004 \001(\0162\016.Trans.MsgType\022\022\n\nmsgConte" +
+      "nt\030\005 \001(\014\022\017\n\007msgMark\030\006 \001(\005\022\022\n\nretryTimes\030" +
+      "\007 \001(\005\")\n\007MsgType\022\010\n\004WORD\020\000\022\t\n\005PHOTO\020\001\022\t\n" +
+      "\005VOICE\020\002\"v\n\007Connect\022\016\n\006userid\030\001 \001(\005\022!\n\007m" +
+      "sgType\030\002 \001(\0162\020.Connect.MsgType\022\024\n\014respon" +
+      "setime\030\003 \001(\003\"\"\n\007MsgType\022\n\n\006ONLINE\020\000\022\013\n\007O" +
+      "FFLINE\020\001\"_\n\tFindMatch\022\033\n\010userInfo\030\001 \001(\0132" +
+      "\t.UserInfo\022\023\n\013dstAgeRange\030\002 \001(\005\022\016\n\006dstSe" +
+      "x\030\003 \001(\005\022\020\n\010dstHobby\030\004 \001(\005\"4\n\010UserInfo\022\016\n" +
+      "\006userid\030\001 \001(\005\022\013\n\003sex\030\002 \001(\005\022\013\n\003age\030\003 \001(\005B" +
+      "\016B\014ConnectorMsgb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5339,7 +5694,7 @@ public final class ConnectorMsg {
     internal_static_cMsgInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_cMsgInfo_descriptor,
-        new String[] { "CMsgType", "Beat", "Trans", "Connect", "DataBody", });
+        new String[] { "CMsgType", "Beat", "Trans", "Connect", "Findmatch", "DataBody", });
     internal_static_Beat_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_Beat_fieldAccessorTable = new
@@ -5351,7 +5706,7 @@ public final class ConnectorMsg {
     internal_static_Trans_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Trans_descriptor,
-        new String[] { "MsgID", "SrcUserid", "DstUserid", "MsgType", "MsgContent", "MsgMark", "RetryTimes", });
+        new String[] { "MsgID", "SrcUserid", "DstUserid", "DstGroupid", "MsgType", "MsgContent", "MsgMark", "RetryTimes", });
     internal_static_Connect_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Connect_fieldAccessorTable = new

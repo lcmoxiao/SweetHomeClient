@@ -3,6 +3,13 @@ package com.banmo.sweethomeclient.mvp.login;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.banmo.sweethomeclient.client.ConnectorClient;
+import com.banmo.sweethomeclient.client.UserInfos;
+import com.banmo.sweethomeclient.client.service.LoginService;
+import com.banmo.sweethomeclient.proto.User;
+
+import static com.banmo.sweethomeclient.client.tool.MsgGenerateTools.generateConnectMessage;
+
 class LoginPresenterImpl implements ILoginPresenter {
     private ILoginView loginView; //视图
 
@@ -15,13 +22,18 @@ class LoginPresenterImpl implements ILoginPresenter {
 
     @Override
     public void doLogin(String mail, String pwd) {
-        boolean result = checkLogin(mail, pwd);
-        if (!result) clear();
-        handler.postDelayed(() -> loginView.onLoginResult(result), 1);
-    }
-
-    private boolean checkLogin(String mail, String pwd) {
-        return mail.equals("a") && pwd.equals("1");
+        new Thread(() -> {
+            User user = LoginService.login(mail, pwd);
+            if (user == null) {
+                handler.postDelayed(() -> loginView.onLoginResult(false), 1);
+                System.out.println("登录失败");
+                return;
+            }
+            System.out.println("登陆成功" + user);
+            UserInfos.user = user;
+            ConnectorClient.getChannel().writeAndFlush(generateConnectMessage(UserInfos.user.getUserid()));
+            handler.postDelayed(() -> loginView.onLoginResult(true), 1);
+        }).start();
     }
 
     @Override

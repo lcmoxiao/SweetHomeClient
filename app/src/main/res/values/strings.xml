@@ -47,4 +47,5 @@
     <string name="man">男</string>
     <string name="manwoman">中</string>
     <string name="woman">女</string>
+    <string name="_100">100</string>
 </resources>

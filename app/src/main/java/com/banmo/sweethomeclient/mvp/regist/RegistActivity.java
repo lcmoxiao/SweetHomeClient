@@ -51,7 +51,14 @@ public class RegistActivity extends AppCompatActivity implements IRegistView {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            overridePendingTransition(R.anim.top_to_bottom, R.anim.bottom_to_top);
         });
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.top_to_bottom, R.anim.bottom_to_top);
     }
 
     @Override
@@ -59,12 +66,12 @@ public class RegistActivity extends AppCompatActivity implements IRegistView {
         signBtn.setEnabled(true);
         loginSwitchBtn.setEnabled(true);
         if (result) {
-            Toast.makeText(this, "Regist Success", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "注册成功，请登录", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else {
-            Toast.makeText(this, "Regist Fail", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "邮箱已注册，注册失败", Toast.LENGTH_SHORT).show();
         }
     }
 

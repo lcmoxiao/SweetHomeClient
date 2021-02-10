@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,62 +20,110 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.banmo.sweethomeclient.R;
+import com.banmo.sweethomeclient.client.UserInfos;
 import com.banmo.sweethomeclient.customview.CircleImageView;
 import com.banmo.sweethomeclient.mvp.singletalk.SingleTalkActivity;
+import com.banmo.sweethomeclient.proto.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static com.banmo.sweethomeclient.mvp.home.HomeActivity.switchFragment;
 
 public class FriendFragment extends Fragment {
 
+    private static final Handler handler = new Handler(Looper.getMainLooper());
+    private static final String TAG = "FriendFragment";
+
     private View mRootView;
     private TextView friendNumTv;
     private ImageView friendRemind;
+    // 数据
     private RecyclerView recyclerView;
+    private FriendRVAdapter friendRVAdapter;
+
+    private static List<FriendFragment.MsgDateBean> fromFriendsToDataBeans(List<User> friends) {
+        if (friends == null) return null;
+        List<MsgDateBean> msgDateBeans = new ArrayList<>();
+        Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
+        bmp.eraseColor(Color.parseColor("#FFEC808D"));
+        for (int i = 0; i < friends.size(); i++) {
+            User user = friends.get(i);
+            msgDateBeans.add(new MsgDateBean(bmp, user.getUsername(), "吃了吗", "2021/1/26 18:34", "在线"));
+        }
+        return msgDateBeans;
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.e(TAG, "onCreate: ");
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume: ");
+        flushFriendsList();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.e(TAG, "onCreateView: ");
         mRootView = inflater.inflate(R.layout.fragment_friend, container, false);
-        return mRootView;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         friendNumTv = mRootView.findViewById(R.id.fragment_friend_numTv);
         friendRemind = mRootView.findViewById(R.id.fragment_friend_remind);
         recyclerView = mRootView.findViewById(R.id.fragment_friend_msgRv);
+        return mRootView;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        friendNumTv.setText("2/2");
-        friendRemind.setOnClickListener(v -> {
-            switchFragment(3);
-        });
+        Log.e(TAG, "onStart: ");
+        friendRemind.setOnClickListener(v -> switchFragment(3));
 
-        initMsgList();
+        flushFriendsList();
+
     }
 
-    void initMsgList() {
-        List<MsgDateBean> msgDateBeans = new ArrayList<>();
-        Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
-        bmp.eraseColor(Color.parseColor("#FFEC808D"));
-        Log.e("213", bmp.toString());
-        msgDateBeans.add(new MsgDateBean(bmp, "LC", "吃了吗", "2021/1/26 18:34", "在线"));
-        msgDateBeans.add(new MsgDateBean(bmp, "LC", "吃了吗", "2021/1/26 18:34", "在线"));
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(
-                getContext(),
-                LinearLayoutManager.VERTICAL,
-                false
-        ));
-        recyclerView.setAdapter(new MsgAdapter(this, msgDateBeans));
+    private void flushFriendsList() {
+        new Thread(() -> {
+            UserInfos.flushFriendsInfo();
+            String s = UserInfos.friends.size() + "/" + UserInfos.user.getUserfriendsize();
+            handler.postDelayed(() -> {
+                friendNumTv.setText(s);
+                if (friendRVAdapter == null) {
+                    friendRVAdapter = new FriendRVAdapter(this, fromFriendsToDataBeans(UserInfos.friends));
+                    recyclerView.setAdapter(friendRVAdapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(
+                            getContext(),
+                            LinearLayoutManager.VERTICAL,
+                            false
+                    ));
+                } else {
+                    Log.e(TAG, "flushFriendsList: " + UserInfos.friends);
+                    friendRVAdapter.setMsgDateBeans(fromFriendsToDataBeans(UserInfos.friends));
+                }
+            }, 0);
+        }).start();
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.e(TAG, "onActivityResult: " + requestCode + " " + resultCode);
+        if (requestCode == 10) {
+            if (resultCode == RESULT_OK) {
+                Log.e(TAG, "onActivityResult: flushFriendsList");
+                flushFriendsList();
+            }
+        }
+    }
+
 
     private static class MsgDateBean {
 
@@ -128,14 +178,20 @@ public class FriendFragment extends Fragment {
         }
     }
 
-    private static class MsgAdapter extends RecyclerView.Adapter<FriendFragment.MsgViewHolder> {
+
+    private static class FriendRVAdapter extends RecyclerView.Adapter<FriendFragment.MsgViewHolder> {
 
         private final FriendFragment friendFragment;
-        private final List<FriendFragment.MsgDateBean> msgDateBeans;
+        private List<FriendFragment.MsgDateBean> msgDateBeans;
 
-        MsgAdapter(FriendFragment friendFragment, @NonNull List<FriendFragment.MsgDateBean> msgDateBeans) {
+        FriendRVAdapter(FriendFragment friendFragment, List<FriendFragment.MsgDateBean> msgDateBeans) {
             this.friendFragment = friendFragment;
             this.msgDateBeans = msgDateBeans;
+        }
+
+        public void setMsgDateBeans(List<MsgDateBean> msgDateBeans) {
+            this.msgDateBeans = msgDateBeans;
+            notifyDataSetChanged();
         }
 
         @NonNull
@@ -156,19 +212,19 @@ public class FriendFragment extends Fragment {
             holder.lastTimeTv.setText(msgDateBean.getLastTime());
             holder.itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(friendFragment.getContext(), SingleTalkActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("dstUsername", msgDateBean.getName());
                 intent.putExtra("dstUserState", msgDateBean.getState());
-                friendFragment.startActivity(intent);
+                intent.putExtra("flag", "friend");
+                intent.putExtra("friendID", UserInfos.friends.get(position).getUserid());
+                friendFragment.startActivityForResult(intent, 10);
             });
-
         }
+
 
         @Override
         public int getItemCount() {
             return msgDateBeans.size();
         }
     }
-
 
 }

@@ -1,78 +1,104 @@
 package com.banmo.sweethomeclient.mvp.home;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Window;
+import android.util.Log;
 import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.banmo.sweethomeclient.R;
+import com.banmo.sweethomeclient.client.UserInfos;
 import com.banmo.sweethomeclient.mvp.home.friend.FriendFragment;
 import com.banmo.sweethomeclient.mvp.home.match.MatchFragment;
 import com.banmo.sweethomeclient.mvp.home.mine.MineFragment;
 import com.banmo.sweethomeclient.mvp.home.msgcenter.MsgCenterFragment;
+import com.banmo.sweethomeclient.mvp.login.LoginActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
     private static final Fragment[] fragments = new Fragment[4];
+    private static final String TAG = "HomeActivity";
     private static int fragmentIndex = 0;
     private static FragmentManager manager;
-    private static FragmentTransaction transaction;
-    private FrameLayout fragmentSpace;
     private Button findBtn;
     private Button friendBtn;
     private Button mineBtn;
 
+    private boolean isFirstIn;
+
     public static void switchFragment(int index) {
-        transaction = manager.beginTransaction();
+        FragmentTransaction transaction = manager.beginTransaction();
         if (fragmentIndex != index) {
-            if (fragments[index] == null) {
+            if (fragments[index] != null) {
+                transaction.hide(fragments[fragmentIndex]);
+                transaction.show(fragments[index]);
+            } else {
+                if (fragments[fragmentIndex] != null) transaction.hide(fragments[fragmentIndex]);
                 fragments[index] = getFragment(index);
+                transaction.add(R.id.home_fragment_layout, fragments[index]);
             }
-            if (!transaction.isEmpty()) transaction.remove(fragments[fragmentIndex]);
-            transaction.replace(R.id.home_fragment_layout, fragments[index]);
             transaction.commit();
             fragmentIndex = index;
         }
     }
 
-    static Fragment getFragment(int index) {
+    private static Fragment getFragment(int index) {
+        Log.e(TAG, "getFragment: " + index);
         switch (index) {
             case 0:
                 return new MatchFragment();
             case 1:
+                //ToDo 考虑修改Activity的启动逻辑
                 return new FriendFragment();
             case 2:
                 return new MineFragment();
             case 3:
                 return new MsgCenterFragment();
             default:
-                return new FriendFragment();
+                return null;
         }
+    }
+
+
+    private void bindView() {
+        findBtn = findViewById(R.id.home_find_bt);
+        friendBtn = findViewById(R.id.home_friend_bt);
+        mineBtn = findViewById(R.id.home_mine_bt);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         setContentView(R.layout.activity_home);
-        fragmentSpace = findViewById(R.id.home_fragment_layout);
-        findBtn = findViewById(R.id.home_find_bt);
-        friendBtn = findViewById(R.id.home_friend_bt);
-        mineBtn = findViewById(R.id.home_mine_bt);
-
         manager = getSupportFragmentManager();
-
-
-        switchFragment(1);
-
-        //启动按钮切换事务
+        bindView();
         initClick();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (UserInfos.user == null) {
+            Toast.makeText(this, "请登录", Toast.LENGTH_SHORT).show();
+            startActivityForResult(new Intent(HomeActivity.this, LoginActivity.class), 1);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e(TAG, "onActivityResult: " + requestCode + " " + resultCode);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK)
+                switchFragment(1);
+        }
+
     }
 
     void initClick() {
