@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.banmo.sweethomeclient.R;
 import com.banmo.sweethomeclient.client.UserInfos;
+import com.banmo.sweethomeclient.client.tool.SqLiteTOOLs;
 import com.banmo.sweethomeclient.mvp.home.friend.FriendFragment;
 import com.banmo.sweethomeclient.mvp.home.match.MatchFragment;
 import com.banmo.sweethomeclient.mvp.home.mine.MineFragment;
@@ -54,7 +55,6 @@ public class HomeActivity extends AppCompatActivity {
             case 0:
                 return new MatchFragment();
             case 1:
-                //ToDo 考虑修改Activity的启动逻辑
                 return new FriendFragment();
             case 2:
                 return new MineFragment();
@@ -64,7 +64,6 @@ public class HomeActivity extends AppCompatActivity {
                 return null;
         }
     }
-
 
     private void bindView() {
         findBtn = findViewById(R.id.home_find_bt);
@@ -76,6 +75,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        SqLiteTOOLs.init(this);
         manager = getSupportFragmentManager();
         bindView();
         initClick();

@@ -3,6 +3,7 @@ package com.banmo.sweethomeclient.client.handler;
 
 import android.util.Log;
 
+import com.banmo.sweethomeclient.client.ConnectorClient;
 import com.banmo.sweethomeclient.client.UserInfos;
 import com.banmo.sweethomeclient.client.service.UserService;
 import com.banmo.sweethomeclient.mvp.home.match.MatchFragment;
@@ -25,13 +26,23 @@ public class MsgHandler extends ChannelHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ConnectorMsg.cMsgInfo cmsg = (ConnectorMsg.cMsgInfo) msg;
 
+        ConnectorMsg.Trans trans = cmsg.getTrans();
         if (cmsg.getCMsgType() == ConnectorMsg.cMsgInfo.CMsgType.TRANS) {
-//            System.out.println("得到trans信息");
-//            ConnectorMsg.Trans trans = cmsg.getTrans();
-//            System.out.println(trans);
-//            ctx.writeAndFlush(msg);
-            System.out.println("收到其他用户的trans消息");
-            System.out.println(cmsg);
+            int msgMark = trans.getMsgMark();
+
+            //Todo 信息同步，聊天同步。需要区分匹配 和好友。
+            if (msgMark == 1) {
+                Log.e("TAG", "消息成功发出");
+            } else if (msgMark == 2) {
+                Log.e("TAG", "接受到消息");
+                ConnectorClient.getChannel().writeAndFlush(
+                        cmsg.toBuilder().setTrans(
+                                cmsg.getTrans().toBuilder().setMsgMark(3)
+                        ).build());
+            } else if (msgMark == 4) {
+                Log.e("TAG", "消息成功被接受");
+            }
+
 
         } else if (cmsg.getCMsgType() == ConnectorMsg.cMsgInfo.CMsgType.MATCH) {
             ConnectorMsg.FindMatch findmatch = cmsg.getFindmatch();
@@ -57,13 +68,13 @@ public class MsgHandler extends ChannelHandlerAdapter {
             } else if (dstAgeRange == 0) {
                 if (UserInfos.usingState == UserInfos.UsingState.SINGLE_MATCH) {
                     Log.e("MsgHandler", "匹配成功");
-                    int dstUserId = cmsg.getTrans().getDstUserid();
-                    UserInfos.groupid = cmsg.getTrans().getDstGroupid();
+                    int dstUserId = trans.getDstUserid();
+                    UserInfos.groupid = trans.getDstGroupid();
                     UserInfos.matchUser = UserService.getUserByUserID(dstUserId);
                     matchFragment.get().onMatchSuccess();
                 }
             } else {
-                Log.e("sdf", "未知Trans信息" + cmsg);
+                Log.e("sdf", "未知MATCH信息" + cmsg);
             }
         } else {
             ctx.fireChannelRead(msg);

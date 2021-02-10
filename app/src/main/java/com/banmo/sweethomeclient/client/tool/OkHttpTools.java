@@ -10,7 +10,7 @@ import okhttp3.Response;
 
 public class OkHttpTools {
 
-    private final static String preUrl = "http://192.168.0.105/";
+    private final static String preUrl = "http://192.168.0.107/";
     private static OkHttpClient client = new OkHttpClient();
 
     public static String get(String url){

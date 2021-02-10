@@ -50,6 +50,7 @@ public class FriendFragment extends Fragment {
         bmp.eraseColor(Color.parseColor("#FFEC808D"));
         for (int i = 0; i < friends.size(); i++) {
             User user = friends.get(i);
+            //Todo 需要在这里结合数据库消息，同步最后消息
             msgDateBeans.add(new MsgDateBean(bmp, user.getUsername(), "吃了吗", "2021/1/26 18:34", "在线"));
         }
         return msgDateBeans;

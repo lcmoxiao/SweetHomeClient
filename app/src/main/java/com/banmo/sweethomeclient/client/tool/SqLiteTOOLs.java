@@ -18,14 +18,17 @@ import java.util.LinkedList;
 public class SqLiteTOOLs extends SQLiteOpenHelper {
 
     private final static String TABLE_NAME = "TRANSMSG";
+    private static final String TAG = "SqLiteTOOLs";
     static SqLiteTOOLs sqLiteTOOLs;
     static SQLiteDatabase db;
+
 
     public SqLiteTOOLs(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
     public static void init(Context context) {
+        Log.e(TAG, "init: ");
         sqLiteTOOLs = new SqLiteTOOLs(context, "SweetHome_db", null, 1);
         db = sqLiteTOOLs.getWritableDatabase();
     }

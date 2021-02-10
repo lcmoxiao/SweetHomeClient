@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import static com.banmo.sweethomeclient.mvp.home.HomeActivity.switchFragment;
 
@@ -40,7 +41,7 @@ public class SingleTalkActivity extends Activity {
     private static final Handler handler = new Handler(Looper.getMainLooper());
     private static final String TAG = "SingleTalkActivity";
 
-    static MsgAdapter adapter;
+    public static MsgAdapter adapter;
     TextView dstUsernameTv;
     TextView dstUserStateTv;
     EditText inputEt;
@@ -115,6 +116,7 @@ public class SingleTalkActivity extends Activity {
             dstUsernameTv.setText(intent.getStringExtra("dstUsername"));
             dstUserStateTv.setText(intent.getStringExtra("dstUserState"));
             friendID = intent.getIntExtra("friendID", 0);
+            //Todo 需要拉取数据库的聊天信息来更新列表
         } else if (flag.equals("singleMatch")) {
             new Thread(() -> {
                 dstUsernameTv.setText(UserInfos.matchUser.getUsername());
@@ -136,8 +138,6 @@ public class SingleTalkActivity extends Activity {
                 false
         ));
         List<MsgDateBean> msgDateBeans = new ArrayList<>();
-        Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
-        bmp.eraseColor(Color.parseColor("#FFEC808D"));
         adapter = new MsgAdapter(msgDateBeans, this);
         recyclerView.setAdapter(adapter);
     }
@@ -155,6 +155,8 @@ public class SingleTalkActivity extends Activity {
             } else {
                 //从左到右分别为 msgType，UserID，TIME，CONTENT
                 SqLiteTOOLs.insert(1, friendID, new Date().toString(), bytes);
+                TransService.sendTextMsg(UUID.randomUUID().hashCode(), UserInfos.getUserid(), friendID, 0, bytes);
+
             }
 
             Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);

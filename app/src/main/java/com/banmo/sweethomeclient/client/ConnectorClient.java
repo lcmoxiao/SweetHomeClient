@@ -28,17 +28,18 @@ import io.netty.handler.timeout.IdleStateHandler;
 
 public class ConnectorClient {
     static int port = 8081;
-    static String host = "192.168.0.105";
+    static String host = "192.168.0.107";
     static Channel channel;
 
     public static Channel getChannel() {
+        if (channel == null)
+            reconnect();
         return channel;
     }
 
 
-
     public static void connect() {
-        Log.e("ConnectorClient","连接中");
+        Log.e("ConnectorClient", "连接中");
         EventLoopGroup group = new NioEventLoopGroup();
 
         try {
@@ -65,6 +66,8 @@ public class ConnectorClient {
             ChannelFuture f = null;
             try {
                 f = b.connect(host, port).sync();
+                Log.e("ConnectorClient", "连接成功" + f);
+
                 channel = f.channel();
                 channel.closeFuture().sync();
             } catch (InterruptedException e) {
