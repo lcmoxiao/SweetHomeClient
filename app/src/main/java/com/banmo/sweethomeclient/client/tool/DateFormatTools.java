@@ -8,4 +8,8 @@ public class DateFormatTools {
     public static String formatToSecond(Date date) {
         return DateFormat.getDateTimeInstance().format(date);
     }
+
+    public static String getNowTime() {
+        return formatToSecond(new Date());
+    }
 }

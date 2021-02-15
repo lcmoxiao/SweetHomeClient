@@ -4,7 +4,7 @@ plugins {
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion '30.0.3'
 
     defaultConfig {
         applicationId "com.banmo.sweethomeclient"
@@ -14,7 +14,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+
     }
+
 
     buildTypes {
         release {
@@ -26,20 +29,28 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation files('src\\main\\java\\com\\banmo\\sweethomeclient\\lib\\gson-2.8.6.jar')
-    implementation files('src\\main\\java\\com\\banmo\\sweethomeclient\\lib\\kotlin-stdlib-1.4.30-M1.jar')
-    implementation files('src\\main\\java\\com\\banmo\\sweethomeclient\\lib\\netty-all-5.0.0.Alpha2.jar')
-    implementation files('src\\main\\java\\com\\banmo\\sweethomeclient\\lib\\okhttp-4.10.0-RC1.jar')
-    implementation files('src\\main\\java\\com\\banmo\\sweethomeclient\\lib\\okio-3.0.0-alpha.1.jar')
-    implementation files('src\\main\\java\\com\\banmo\\sweethomeclient\\lib\\protobuf-java-3.14.0.jar')
-    testImplementation 'junit:junit:4.+'
+    implementation files('src/main/java/com/banmo/sweethomeclient/lib/gson-2.8.6.jar')
+    implementation files('src/main/java/com/banmo/sweethomeclient/lib/kotlin-stdlib-1.4.30-M1.jar')
+    implementation files('src/main/java/com/banmo/sweethomeclient/lib/netty-all-5.0.0.Alpha2.jar')
+    implementation files('src/main/java/com/banmo/sweethomeclient/lib/okhttp-4.10.0-RC1.jar')
+    implementation files('src/main/java/com/banmo/sweethomeclient/lib/okio-3.0.0-alpha.1.jar')
+    implementation files('src/main/java/com/banmo/sweethomeclient/lib/protobuf-java-3.14.0.jar')
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //引入ButterKnife
+//    implementation 'com.jakewharton:butterknife:10.2.3'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+
 }

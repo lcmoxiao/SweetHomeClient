@@ -17,19 +17,19 @@ import java.util.LinkedList;
 
 public class SqLiteTOOLs extends SQLiteOpenHelper {
 
-    private final static String TABLE_NAME = "TRANSMSG";
     private static final String TAG = "SqLiteTOOLs";
     static SqLiteTOOLs sqLiteTOOLs;
     static SQLiteDatabase db;
+    private static final String TABLE_NAME = "MSGTABLE";
 
 
     public SqLiteTOOLs(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
-    public static void init(Context context) {
+    public static void init(Context context, int userid) {
         Log.e(TAG, "init: ");
-        sqLiteTOOLs = new SqLiteTOOLs(context, "SweetHome_db", null, 1);
+        sqLiteTOOLs = new SqLiteTOOLs(context, "SweetHome_db" + userid, null, 1);
         db = sqLiteTOOLs.getWritableDatabase();
     }
 
@@ -53,6 +53,39 @@ public class SqLiteTOOLs extends SQLiteOpenHelper {
         return msgDateBeans;
     }
 
+    public static MsgDateBean selectLastByUserid(int Userid) {
+        Cursor cursor = db.query(TABLE_NAME, new String[]{"msgType", "srcUserid", "timeStamp", "content"}, "srcUserid=?", new String[]{String.valueOf(Userid)}, null, null, null);
+        if (cursor.moveToLast()) {
+            Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
+            bmp.eraseColor(Color.parseColor("#FFEC808D"));
+            int msgType = cursor.getInt(cursor.getColumnIndex("msgType"));
+            Integer srcUserid = cursor.getInt(cursor.getColumnIndex("srcUserid"));
+            String timeStamp = cursor.getString(cursor.getColumnIndex("timeStamp"));
+            byte[] content = cursor.getBlob(cursor.getColumnIndex("content"));
+            return new MsgDateBean(bmp, content, timeStamp, srcUserid, msgType);
+        }
+        cursor.close();
+        return null;
+    }
+
+    public static LinkedList<MsgDateBean> selectByUserid(int Userid) {
+        Cursor cursor = db.query(TABLE_NAME, new String[]{"msgType", "srcUserid", "timeStamp", "content"}, "srcUserid=?", new String[]{String.valueOf(Userid)}, null, null, null);
+
+        LinkedList<MsgDateBean> msgDateBeans = new LinkedList<>();
+        while (cursor.moveToNext()) {
+            Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
+            bmp.eraseColor(Color.parseColor("#FFEC808D"));
+            int msgType = cursor.getInt(cursor.getColumnIndex("msgType"));
+            Integer srcUserid = cursor.getInt(cursor.getColumnIndex("srcUserid"));
+            String timeStamp = cursor.getString(cursor.getColumnIndex("timeStamp"));
+            byte[] content = cursor.getBlob(cursor.getColumnIndex("content"));
+            msgDateBeans.add(new MsgDateBean(bmp, content, timeStamp, srcUserid, msgType));
+        }
+
+        cursor.close();
+        return msgDateBeans;
+    }
+
     public static boolean insert(int msgType, int srcUserid, String timeStamp, byte[] content) {
         ContentValues values = new ContentValues();
         values.put("msgType", msgType);
@@ -73,6 +106,7 @@ public class SqLiteTOOLs extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.e(TAG, "onCreate: ");
         String sql = "CREATE TABLE " + TABLE_NAME + " " +
                 "(msgType        INT    NOT NULL, " +
                 " srcUserid      INT    NOT NULL, " +

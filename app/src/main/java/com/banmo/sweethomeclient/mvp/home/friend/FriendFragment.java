@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.banmo.sweethomeclient.R;
 import com.banmo.sweethomeclient.client.UserInfos;
+import com.banmo.sweethomeclient.client.tool.SqLiteTOOLs;
 import com.banmo.sweethomeclient.customview.CircleImageView;
 import com.banmo.sweethomeclient.mvp.singletalk.SingleTalkActivity;
 import com.banmo.sweethomeclient.proto.User;
@@ -46,12 +47,33 @@ public class FriendFragment extends Fragment {
     private static List<FriendFragment.MsgDateBean> fromFriendsToDataBeans(List<User> friends) {
         if (friends == null) return null;
         List<MsgDateBean> msgDateBeans = new ArrayList<>();
-        Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
-        bmp.eraseColor(Color.parseColor("#FFEC808D"));
+        //读取所有的缓存的聊天信息
+
         for (int i = 0; i < friends.size(); i++) {
             User user = friends.get(i);
-            //Todo 需要在这里结合数据库消息，同步最后消息
-            msgDateBeans.add(new MsgDateBean(bmp, user.getUsername(), "吃了吗", "2021/1/26 18:34", "在线"));
+            com.banmo.sweethomeclient.mvp.singletalk.MsgDateBean msgDateBean = SqLiteTOOLs.selectLastByUserid(user.getUserid());
+            MsgDateBean mdb = null;
+            if (msgDateBean == null) {
+                Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
+                bmp.eraseColor(Color.parseColor("#FFEC808D"));
+                mdb = new MsgDateBean(bmp, user.getUsername(), "无消息", "", "在线");
+            } else {
+                int msgType = msgDateBean.getMsgType();
+                if (msgType == 0) {
+                    mdb = new MsgDateBean(msgDateBean.getHeadImg(), user.getUsername(), user.getUsername() + "：" + new String(msgDateBean.getContent()), msgDateBean.getTime(), "在线");
+                } else if (msgType == 1) {
+                    mdb = new MsgDateBean(msgDateBean.getHeadImg(), user.getUsername(), "我：" + new String(msgDateBean.getContent()), msgDateBean.getTime(), "在线");
+                } else if (msgType == 2) {
+                    mdb = new MsgDateBean(msgDateBean.getHeadImg(), user.getUsername(), "图片", msgDateBean.getTime(), "在线");
+                } else if (msgType == 3) {
+                    mdb = new MsgDateBean(msgDateBean.getHeadImg(), user.getUsername(), "我：" + "图片", msgDateBean.getTime(), "在线");
+                } else if (msgType == 4) {
+                    mdb = new MsgDateBean(msgDateBean.getHeadImg(), user.getUsername(), "语音", msgDateBean.getTime(), "在线");
+                } else if (msgType == 5) {
+                    mdb = new MsgDateBean(msgDateBean.getHeadImg(), user.getUsername(), "我：" + "语音", msgDateBean.getTime(), "在线");
+                }
+            }
+            msgDateBeans.add(mdb);
         }
         return msgDateBeans;
     }
@@ -96,10 +118,11 @@ public class FriendFragment extends Fragment {
         new Thread(() -> {
             UserInfos.flushFriendsInfo();
             String s = UserInfos.friends.size() + "/" + UserInfos.user.getUserfriendsize();
+            List<MsgDateBean> msgDateBeans = fromFriendsToDataBeans(UserInfos.friends);
             handler.postDelayed(() -> {
                 friendNumTv.setText(s);
                 if (friendRVAdapter == null) {
-                    friendRVAdapter = new FriendRVAdapter(this, fromFriendsToDataBeans(UserInfos.friends));
+                    friendRVAdapter = new FriendRVAdapter(this, msgDateBeans);
                     recyclerView.setAdapter(friendRVAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(
                             getContext(),
@@ -108,7 +131,7 @@ public class FriendFragment extends Fragment {
                     ));
                 } else {
                     Log.e(TAG, "flushFriendsList: " + UserInfos.friends);
-                    friendRVAdapter.setMsgDateBeans(fromFriendsToDataBeans(UserInfos.friends));
+                    friendRVAdapter.setMsgDateBeans(msgDateBeans);
                 }
             }, 0);
         }).start();

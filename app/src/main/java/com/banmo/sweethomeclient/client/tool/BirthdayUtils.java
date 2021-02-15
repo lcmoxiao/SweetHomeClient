@@ -1,5 +1,4 @@
-package client.tool;
-
+package com.banmo.sweethomeclient.client.tool;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,7 +12,7 @@ public class BirthdayUtils {
     }
 
     //由出生日期获得年龄
-    public static int getAge(Date birthDay)  {
+    public static int getAge(Date birthDay) {
         Calendar cal = Calendar.getInstance();
         if (cal.before(birthDay)) {
             throw new IllegalArgumentException(

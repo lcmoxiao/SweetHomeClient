@@ -13,7 +13,7 @@ public class OkHttpTools {
     private final static String preUrl = "http://192.168.0.107/";
     private static OkHttpClient client = new OkHttpClient();
 
-    public static String get(String url){
+    public static String get(String url) {
         Request request = new Request.Builder()
                 .url(preUrl + url)
                 .build();

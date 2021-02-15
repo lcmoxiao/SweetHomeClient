@@ -65,10 +65,8 @@ public class MatchFragment extends Fragment {
 
         Intent intent = new Intent(getContext(), SingleTalkActivity.class);
         if (UserInfos.usingState == UserInfos.UsingState.SINGLE_MATCH) {
-            UserInfos.usingState = UserInfos.UsingState.ON_SINGLE_MATCH;
             intent.putExtra("flag", "singleMatch");
         } else {
-            UserInfos.usingState = UserInfos.UsingState.ON_GROUP_MATCH;
             intent.putExtra("flag", "groupMatch");
         }
         startActivity(intent);
@@ -84,7 +82,6 @@ public class MatchFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         groupMatchBtn = mRootView.findViewById(R.id.fragment_match_groupMatchBtn);
         singleMatchBtn = mRootView.findViewById(R.id.fragment_match_singleMatchBtn);
         manBtn = mRootView.findViewById(R.id.fragment_match_manBtn);
@@ -150,7 +147,6 @@ public class MatchFragment extends Fragment {
     }
 
     private class MsgAdapter extends RecyclerView.Adapter<MsgViewHolder> {
-
 
         @NonNull
         @Override

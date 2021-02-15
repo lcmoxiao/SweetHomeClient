@@ -1,6 +1,7 @@
 package com.banmo.sweethomeclient.client.service;
 
 import com.banmo.sweethomeclient.client.ConnectorClient;
+import com.banmo.sweethomeclient.client.tool.BirthdayUtils;
 import com.banmo.sweethomeclient.client.tool.GsonTools;
 import com.banmo.sweethomeclient.client.tool.MsgGenerateTools;
 import com.banmo.sweethomeclient.client.tool.OkHttpTools;
@@ -15,7 +16,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import client.tool.BirthdayUtils;
 
 public class MatchService {
 

@@ -60,6 +60,7 @@ public class MsgAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (msgDateBean.getMsgType() == 2 || msgDateBean.getMsgType() == 3) {
             ImgMsgViewHolder iholder = (ImgMsgViewHolder) holder;
             iholder.headIv.setImageBitmap(msgDateBean.getHeadImg());
+
             iholder.msgIv.setImageBitmap(BitmapFactory.decodeByteArray(msgDateBean.getContent(), 0, msgDateBean.getContent().length));
             iholder.timeTv.setText(msgDateBean.getTime());
         } else if (msgDateBean.getMsgType() == 4 || msgDateBean.getMsgType() == 5) {

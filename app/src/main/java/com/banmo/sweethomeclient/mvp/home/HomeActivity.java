@@ -27,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivity";
     private static int fragmentIndex = 0;
     private static FragmentManager manager;
+
     private Button findBtn;
     private Button friendBtn;
     private Button mineBtn;
@@ -75,7 +76,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        SqLiteTOOLs.init(this);
         manager = getSupportFragmentManager();
         bindView();
         initClick();
@@ -95,8 +95,11 @@ public class HomeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e(TAG, "onActivityResult: " + requestCode + " " + resultCode);
         if (requestCode == 1) {
-            if (resultCode == RESULT_OK)
+            if (resultCode == RESULT_OK) {
+                SqLiteTOOLs.init(this,UserInfos.getUserid());
                 switchFragment(1);
+            }
+
         }
 
     }

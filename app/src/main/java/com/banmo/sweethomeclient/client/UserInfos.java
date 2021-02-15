@@ -90,11 +90,12 @@ public class UserInfos {
         return matchUser.getUserid();
     }
 
-    public static enum UsingState {
+    public enum UsingState {
         NULL,
         SINGLE_MATCH,
         GROUP_MATCH,
         ON_SINGLE_MATCH,
-        ON_GROUP_MATCH
+        ON_GROUP_MATCH,
+        FRIEND_TALK
     }
 }
