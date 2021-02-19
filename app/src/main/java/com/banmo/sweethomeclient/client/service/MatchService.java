@@ -1,15 +1,15 @@
 package com.banmo.sweethomeclient.client.service;
 
 import com.banmo.sweethomeclient.client.ConnectorClient;
-import com.banmo.sweethomeclient.client.tool.BirthdayUtils;
-import com.banmo.sweethomeclient.client.tool.GsonTools;
-import com.banmo.sweethomeclient.client.tool.MsgGenerateTools;
-import com.banmo.sweethomeclient.client.tool.OkHttpTools;
-import com.banmo.sweethomeclient.proto.ConnectorMsg;
-import com.banmo.sweethomeclient.proto.MatchGroup;
-import com.banmo.sweethomeclient.proto.MatchGroupRelation;
-import com.banmo.sweethomeclient.proto.MatchRelation;
-import com.banmo.sweethomeclient.proto.User;
+import com.banmo.sweethomeclient.tool.BirthdayUtils;
+import com.banmo.sweethomeclient.tool.GsonTools;
+import com.banmo.sweethomeclient.tool.MsgGenerateTools;
+import com.banmo.sweethomeclient.tool.OkHttpTools;
+import com.banmo.sweethomeclient.pojo.ConnectorMsg;
+import com.banmo.sweethomeclient.pojo.MatchGroup;
+import com.banmo.sweethomeclient.pojo.MatchGroupRelation;
+import com.banmo.sweethomeclient.pojo.MatchRelation;
+import com.banmo.sweethomeclient.pojo.User;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;

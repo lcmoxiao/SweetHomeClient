@@ -6,11 +6,13 @@ import android.util.Log;
 import com.banmo.sweethomeclient.client.ConnectorClient;
 import com.banmo.sweethomeclient.client.UserInfos;
 import com.banmo.sweethomeclient.client.service.UserService;
-import com.banmo.sweethomeclient.client.tool.DateFormatTools;
-import com.banmo.sweethomeclient.client.tool.SqLiteTOOLs;
 import com.banmo.sweethomeclient.mvp.home.match.MatchFragment;
+import com.banmo.sweethomeclient.mvp.singletalk.MsgDateBean;
 import com.banmo.sweethomeclient.mvp.singletalk.SingleTalkActivity;
-import com.banmo.sweethomeclient.proto.ConnectorMsg;
+import com.banmo.sweethomeclient.pojo.ConnectorMsg;
+import com.banmo.sweethomeclient.tool.DateTools;
+import com.banmo.sweethomeclient.tool.SqLiteTOOLs;
+import com.google.protobuf.ByteString;
 
 import java.lang.ref.WeakReference;
 import java.util.Date;
@@ -44,18 +46,24 @@ public class MsgHandler extends ChannelHandlerAdapter {
         if (msgMark == 1) {
             Log.e(TAG, "消息成功发出");
         } else if (msgMark == 2) {
-            Log.e(TAG, "接受到消息");
+            Log.e(TAG, "接受到单体消息");
+            int msgType = trans.getMsgType().getNumber() * 2;
+            int srcUserid = trans.getSrcUserid();
+            String timeStamp = DateTools.formatToSecond(new Date());
+            byte[] content = trans.getMsgContent().toByteArray();
+            ByteString recordTime = trans.getRecordTime();
             if (!UserInfos.isOnMatching()) {
                 Log.e(TAG, "好友消息");
                 //转存到数据库
                 SqLiteTOOLs.insert(
-                        trans.getMsgType().getNumber() * 2, // 由于是接受的消息 所以 为 0 2 4
-                        trans.getSrcUserid(),
-                        DateFormatTools.formatToSecond(new Date()), // 设置为接收消息的时间
-                        trans.getMsgContent().toByteArray()
+                        msgType, // 由于是接受的消息 所以 为 0 2 4
+                        srcUserid,
+                        timeStamp, // 设置为接收消息的时间
+                        content,
+                        String.valueOf(recordTime)
                 );
             }
-            singleTalkActivity.get().onReceiveMsg();
+            singleTalkActivity.get().onReceiveMsg(new MsgDateBean(content, timeStamp, srcUserid, msgType, recordTime.toString()));
             ConnectorClient.getChannel().writeAndFlush(
                     cmsg.toBuilder().setTrans(
                             cmsg.getTrans().toBuilder().setMsgMark(3)
@@ -80,12 +88,12 @@ public class MsgHandler extends ChannelHandlerAdapter {
             if (dstSex == 0) {
                 singleTalkActivity.get().onFriendWant(userid1, userid2);
             } else if (dstSex == -1) {
-                singleTalkActivity.get().onFriendAgree(userid1, userid2);
+                singleTalkActivity.get().onFriendAgree();
             } else if (dstSex == -2) {
-                singleTalkActivity.get().onFriendReject(userid1, userid2);
+                singleTalkActivity.get().onFriendReject();
             }
         } else if (dstAgeRange == 0) {
-            if (UserInfos.usingState == UserInfos.UsingState.SINGLE_MATCH) {
+            if (UserInfos.isMatching()) {
                 Log.e("MsgHandler", "匹配成功");
                 int dstUserId = trans.getDstUserid();
                 UserInfos.groupid = trans.getDstGroupid();

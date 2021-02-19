@@ -1,8 +1,8 @@
 package com.banmo.sweethomeclient.client.service;
 
 import com.banmo.sweethomeclient.client.ConnectorClient;
-import com.banmo.sweethomeclient.client.tool.MsgGenerateTools;
-import com.banmo.sweethomeclient.proto.ConnectorMsg;
+import com.banmo.sweethomeclient.pojo.ConnectorMsg;
+import com.banmo.sweethomeclient.tool.MsgGenerateTools;
 
 public class TransService {
 
@@ -14,7 +14,8 @@ public class TransService {
                         dstUserid,
                         dstGroupid, //为0说明是单体消息，不为0说明是群组消息
                         ConnectorMsg.Trans.MsgType.WORD,
-                        content
+                        content,
+                        "无"
                 );
         ConnectorClient.getChannel().write(cMsgInfo);
     }
@@ -27,13 +28,14 @@ public class TransService {
                         dstUserid,
                         dstGroupid, //为0说明是单体消息，不为0说明是群组消息
                         ConnectorMsg.Trans.MsgType.PHOTO,
-                        content
+                        content,
+                        "无"
                 );
         ConnectorClient.getChannel().write(cMsgInfo);
     }
 
 
-    public static void sendVoiceMsg(int msgID, int srcUserid, int dstUserid, int dstGroupid, byte[] content) {
+    public static void sendVoiceMsg(int msgID, int srcUserid, int dstUserid, int dstGroupid, byte[] content, String recordTime) {
         ConnectorMsg.cMsgInfo cMsgInfo = MsgGenerateTools.generateTransMessage
                 (
                         msgID,
@@ -41,7 +43,8 @@ public class TransService {
                         dstUserid,
                         dstGroupid, //为0说明是单体消息，不为0说明是群组消息
                         ConnectorMsg.Trans.MsgType.VOICE,
-                        content
+                        content,
+                        recordTime
                 );
         ConnectorClient.getChannel().write(cMsgInfo);
     }

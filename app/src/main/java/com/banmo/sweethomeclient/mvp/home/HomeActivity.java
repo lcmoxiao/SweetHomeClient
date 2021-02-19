@@ -3,7 +3,6 @@ package com.banmo.sweethomeclient.mvp.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -14,12 +13,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.banmo.sweethomeclient.R;
 import com.banmo.sweethomeclient.client.UserInfos;
-import com.banmo.sweethomeclient.client.tool.SqLiteTOOLs;
+import com.banmo.sweethomeclient.databinding.ActivityHomeBinding;
 import com.banmo.sweethomeclient.mvp.home.friend.FriendFragment;
 import com.banmo.sweethomeclient.mvp.home.match.MatchFragment;
 import com.banmo.sweethomeclient.mvp.home.mine.MineFragment;
 import com.banmo.sweethomeclient.mvp.home.msgcenter.MsgCenterFragment;
 import com.banmo.sweethomeclient.mvp.login.LoginActivity;
+import com.banmo.sweethomeclient.tool.SqLiteTOOLs;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -27,12 +27,8 @@ public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivity";
     private static int fragmentIndex = 0;
     private static FragmentManager manager;
+    ActivityHomeBinding inflate;
 
-    private Button findBtn;
-    private Button friendBtn;
-    private Button mineBtn;
-
-    private boolean isFirstIn;
 
     public static void switchFragment(int index) {
         FragmentTransaction transaction = manager.beginTransaction();
@@ -45,6 +41,7 @@ public class HomeActivity extends AppCompatActivity {
                 fragments[index] = getFragment(index);
                 transaction.add(R.id.home_fragment_layout, fragments[index]);
             }
+            ((Flush) fragments[index]).flushViewFromData();
             transaction.commit();
             fragmentIndex = index;
         }
@@ -66,19 +63,15 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void bindView() {
-        findBtn = findViewById(R.id.home_find_bt);
-        friendBtn = findViewById(R.id.home_friend_bt);
-        mineBtn = findViewById(R.id.home_mine_bt);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        manager = getSupportFragmentManager();
-        bindView();
-        initClick();
+
+        inflate = ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(inflate.getRoot());
+
+        initClickListener();
     }
 
     @Override
@@ -93,29 +86,36 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e(TAG, "onActivityResult: " + requestCode + " " + resultCode);
         if (requestCode == 1) {
+            //只有LoginActivity会返回到这里，显示为登陆成功，跳转到friendFragment界面。
             if (resultCode == RESULT_OK) {
-                SqLiteTOOLs.init(this,UserInfos.getUserid());
+
+                int userid = UserInfos.getUserid();
+                SqLiteTOOLs.init(this, userid);
+                initFragmentModel();
                 switchFragment(1);
+            } else if (resultCode == RESULT_CANCELED) {
+                finish();
             }
-
         }
-
     }
 
-    void initClick() {
-        findBtn.setOnClickListener(v -> {
-            switchFragment(0);
-        });
-        friendBtn.setOnClickListener(v -> {
-            switchFragment(1);
-        });
-
-        mineBtn.setOnClickListener(v -> {
-            switchFragment(2);
-        });
-
+    private void initClickListener() {
+        inflate.homeFindBt.setOnClickListener(v -> switchFragment(0));
+        inflate.homeFriendBt.setOnClickListener(v -> switchFragment(1));
+        inflate.homeMineBt.setOnClickListener(v -> switchFragment(2));
     }
 
+    private void initFragmentModel() {
+        if (manager == null) manager = getSupportFragmentManager();
+        // 每次重启都要清空fragments的内容
+        for (int i = 0; i < fragments.length; i++) {
+            if (fragments[i] != null) {
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.remove(fragments[i]);
+                transaction.commit();
+                fragments[i] = null;
+            }
+        }
+    }
 }

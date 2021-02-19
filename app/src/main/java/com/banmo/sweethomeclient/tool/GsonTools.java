@@ -1,4 +1,4 @@
-package com.banmo.sweethomeclient.client.tool;
+package com.banmo.sweethomeclient.tool;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -3,15 +3,15 @@ package com.banmo.sweethomeclient.client.handler;
 
 import com.banmo.sweethomeclient.client.ConnectorClient;
 import com.banmo.sweethomeclient.client.UserInfos;
-import com.banmo.sweethomeclient.proto.ConnectorMsg;
+import com.banmo.sweethomeclient.pojo.ConnectorMsg;
 
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleStateEvent;
 
-import static com.banmo.sweethomeclient.client.tool.MsgGenerateTools.generateBeatMessage;
-import static com.banmo.sweethomeclient.client.tool.MsgGenerateTools.generateConnectMessage;
+import static com.banmo.sweethomeclient.tool.MsgGenerateTools.generateBeatMessage;
+import static com.banmo.sweethomeclient.tool.MsgGenerateTools.generateConnectMessage;
 
 
 @ChannelHandler.Sharable

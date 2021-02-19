@@ -1,4 +1,4 @@
-package com.banmo.sweethomeclient.client.tool;
+package com.banmo.sweethomeclient.tool;
 
 import java.io.IOException;
 

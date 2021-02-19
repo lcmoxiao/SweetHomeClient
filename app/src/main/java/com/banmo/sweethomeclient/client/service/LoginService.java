@@ -1,8 +1,8 @@
 package com.banmo.sweethomeclient.client.service;
 
-import com.banmo.sweethomeclient.client.tool.GsonTools;
-import com.banmo.sweethomeclient.client.tool.OkHttpTools;
-import com.banmo.sweethomeclient.proto.User;
+import com.banmo.sweethomeclient.tool.GsonTools;
+import com.banmo.sweethomeclient.tool.OkHttpTools;
+import com.banmo.sweethomeclient.pojo.User;
 import com.google.gson.Gson;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.banmo.sweethomeclient.client.tool;
+package com.banmo.sweethomeclient.tool;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,9 +18,9 @@ import java.util.LinkedList;
 public class SqLiteTOOLs extends SQLiteOpenHelper {
 
     private static final String TAG = "SqLiteTOOLs";
+    private static final String TABLE_NAME = "MSGTABLE";
     static SqLiteTOOLs sqLiteTOOLs;
     static SQLiteDatabase db;
-    private static final String TABLE_NAME = "MSGTABLE";
 
 
     public SqLiteTOOLs(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -31,10 +31,11 @@ public class SqLiteTOOLs extends SQLiteOpenHelper {
         Log.e(TAG, "init: ");
         sqLiteTOOLs = new SqLiteTOOLs(context, "SweetHome_db" + userid, null, 1);
         db = sqLiteTOOLs.getWritableDatabase();
+
     }
 
     public static LinkedList<MsgDateBean> select() {
-        Cursor cursor = db.query(TABLE_NAME, new String[]{"msgType", "srcUserid", "timeStamp", "content"}, null, null, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, new String[]{"msgType", "srcUserid", "timeStamp", "content", "recordTime"}, null, null, null, null, null);
 
         LinkedList<MsgDateBean> msgDateBeans = new LinkedList<>();
         while (cursor.moveToNext()) {
@@ -44,17 +45,17 @@ public class SqLiteTOOLs extends SQLiteOpenHelper {
             Integer srcUserid = cursor.getInt(cursor.getColumnIndex("srcUserid"));
             String timeStamp = cursor.getString(cursor.getColumnIndex("timeStamp"));
             byte[] content = cursor.getBlob(cursor.getColumnIndex("content"));
-            msgDateBeans.add(new MsgDateBean(bmp, content, timeStamp, srcUserid, msgType));
+            String recordTime = cursor.getString(cursor.getColumnIndex("recordTime"));
+            msgDateBeans.add(new MsgDateBean(content, timeStamp, srcUserid, msgType, recordTime));
         }
 
         cursor.close();
-
         Log.e("ss", String.valueOf(msgDateBeans.size()));
         return msgDateBeans;
     }
 
     public static MsgDateBean selectLastByUserid(int Userid) {
-        Cursor cursor = db.query(TABLE_NAME, new String[]{"msgType", "srcUserid", "timeStamp", "content"}, "srcUserid=?", new String[]{String.valueOf(Userid)}, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, new String[]{"msgType", "srcUserid", "timeStamp", "content", "recordTime"}, "srcUserid=?", new String[]{String.valueOf(Userid)}, null, null, null);
         if (cursor.moveToLast()) {
             Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
             bmp.eraseColor(Color.parseColor("#FFEC808D"));
@@ -62,14 +63,16 @@ public class SqLiteTOOLs extends SQLiteOpenHelper {
             Integer srcUserid = cursor.getInt(cursor.getColumnIndex("srcUserid"));
             String timeStamp = cursor.getString(cursor.getColumnIndex("timeStamp"));
             byte[] content = cursor.getBlob(cursor.getColumnIndex("content"));
-            return new MsgDateBean(bmp, content, timeStamp, srcUserid, msgType);
+            String recordTime = cursor.getString(cursor.getColumnIndex("recordTime"));
+
+            return new MsgDateBean(content, timeStamp, srcUserid, msgType, recordTime);
         }
         cursor.close();
         return null;
     }
 
     public static LinkedList<MsgDateBean> selectByUserid(int Userid) {
-        Cursor cursor = db.query(TABLE_NAME, new String[]{"msgType", "srcUserid", "timeStamp", "content"}, "srcUserid=?", new String[]{String.valueOf(Userid)}, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, new String[]{"msgType", "srcUserid", "timeStamp", "content", "recordTime"}, "srcUserid=?", new String[]{String.valueOf(Userid)}, null, null, null);
 
         LinkedList<MsgDateBean> msgDateBeans = new LinkedList<>();
         while (cursor.moveToNext()) {
@@ -79,23 +82,27 @@ public class SqLiteTOOLs extends SQLiteOpenHelper {
             Integer srcUserid = cursor.getInt(cursor.getColumnIndex("srcUserid"));
             String timeStamp = cursor.getString(cursor.getColumnIndex("timeStamp"));
             byte[] content = cursor.getBlob(cursor.getColumnIndex("content"));
-            msgDateBeans.add(new MsgDateBean(bmp, content, timeStamp, srcUserid, msgType));
+            String recordTime = cursor.getString(cursor.getColumnIndex("recordTime"));
+
+            msgDateBeans.add(new MsgDateBean(content, timeStamp, srcUserid, msgType, recordTime));
         }
 
         cursor.close();
         return msgDateBeans;
     }
 
-    public static boolean insert(int msgType, int srcUserid, String timeStamp, byte[] content) {
+    //所有属于和xx的对话都存储在 对应的friendId里面
+    public static boolean insert(int msgType, int friendid, String timeStamp, byte[] content, String recordTime) {
         ContentValues values = new ContentValues();
         values.put("msgType", msgType);
-        values.put("srcUserid", srcUserid);
+        values.put("srcUserid", friendid);
         values.put("timeStamp", timeStamp);
         values.put("content", content);
+        values.put("recordTime", recordTime);
         return db.insert(TABLE_NAME, null, values) != -1;
     }
 
-    private void delete(int srcUserid) {
+    public static void delete(int srcUserid) {
         //删除条件
         String whereClause = "srcUserid=?";
         //删除条件参数
@@ -111,7 +118,8 @@ public class SqLiteTOOLs extends SQLiteOpenHelper {
                 "(msgType        INT    NOT NULL, " +
                 " srcUserid      INT    NOT NULL, " +
                 " timeStamp      CHAR(50), " +
-                " content        BLOB)";
+                " content        BLOB," +
+                " recordTime     CHAR(50))";
         db.execSQL(sql);
     }
 

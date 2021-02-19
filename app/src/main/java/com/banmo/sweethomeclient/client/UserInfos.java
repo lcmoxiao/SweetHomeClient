@@ -3,8 +3,8 @@ package com.banmo.sweethomeclient.client;
 import android.util.Log;
 
 import com.banmo.sweethomeclient.client.service.FriendService;
-import com.banmo.sweethomeclient.proto.FriendRelation;
-import com.banmo.sweethomeclient.proto.User;
+import com.banmo.sweethomeclient.pojo.FriendRelation;
+import com.banmo.sweethomeclient.pojo.User;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class UserInfos {
     public static List<FriendRelation> friendRelations;
 
     static {
-        new Thread(ConnectorClient::connect).start();
+        ConnectorClient.buildConnect();
     }
 
     public static void clearAllInfos() {
@@ -56,9 +56,9 @@ public class UserInfos {
         }
         Log.e(TAG, "deleteFriendRelation: index = " + i);
         Log.e(TAG, "deleteFriendRelation: index = " + friends.remove(i));
-        Log.e(TAG, "deleteFriendRelation: index = " +   friendRelations.remove(i));
+        Log.e(TAG, "deleteFriendRelation: index = " + friendRelations.remove(i));
         ;
-      ;
+        ;
     }
 
     public static boolean isMatching() {
@@ -73,12 +73,25 @@ public class UserInfos {
         return usingState == UsingState.GROUP_MATCH || usingState == UsingState.ON_GROUP_MATCH;
     }
 
-    public static User getUserInfoByUsernbame(String username) {
+    public static User getUserInfoByUsername(String username) {
+        if (user.getUsername().equals(username)) return user;
         for (User user : friends
         ) {
             if (user.getUsername().equals(username)) return user;
         }
-        if (matchUser.getUsername().equals(username)) return matchUser;
+        if (matchUser != null)
+            if (matchUser.getUsername().equals(username)) return matchUser;
+        return null;
+    }
+
+    public static User getUserInfoByUserid(int userid) {
+        if (user.getUserid() == userid) return user;
+        for (User user : friends
+        ) {
+            if (user.getUserid() == userid) return user;
+        }
+        if (matchUser != null)
+            if (matchUser.getUserid() == userid) return matchUser;
         return null;
     }
 

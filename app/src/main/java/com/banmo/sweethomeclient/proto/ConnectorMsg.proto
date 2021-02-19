@@ -1,0 +1,70 @@
+syntax = "proto3";
+option java_outer_classname = "ConnectorMsg";
+option java_package = "com.banmo.sweethomeclient.pojo";
+
+message cMsgInfo{
+
+  enum CMsgType {
+    BEAT = 0;
+    TRANS = 1;
+    CONNECT = 2;
+    MATCH = 3;
+  }
+
+  CMsgType cMsgType = 1;
+
+  oneof dataBody {
+    Beat beat = 2;
+    Trans trans = 3;
+    Connect connect = 4;
+    FindMatch findmatch = 5;
+  }
+}
+
+message Beat {
+  int64 requesttime = 1;
+  int64 responsetime = 2;
+}
+
+message Trans {
+  enum MsgType {
+    WORD = 0;
+    PHOTO = 1;
+    VOICE = 2;
+  }
+  int32 msgID = 1;
+  int32 srcUserid = 2;
+  int32 dstUserid = 3;
+  int32 dstGroupid = 31;
+  MsgType msgType = 4;
+  bytes msgContent = 5;
+
+  int32 msgMark = 6;  // 0 客户端发送，1 客户端发送成功，2 收到消息 ，3接收成功
+  bytes recordTime = 7; // 传输录音的时长
+}
+
+message Connect {
+  int32 userid = 1;
+  enum MsgType {
+    ONLINE = 0;
+    OFFLINE = 1;
+  }
+  MsgType msgType = 2;
+  int64 responsetime = 3;
+}
+
+
+message FindMatch {
+  UserInfo userInfo = 1;
+  int32 dstAgeRange = 2;
+  // 服务器接收 其他表示单体匹配；-1 表示群匹配；-2表示主动取消；-3表示拒绝
+  // 客户端接收 其他表示匹配成功；-3 表示匹配被断开
+  int32 dstSex = 3;  //  在客户端主动取消时，-1表示群组，-2表示单体
+  int32 dstHobby = 4;
+}
+
+message UserInfo {
+  int32 userid = 1;
+  int32 sex = 2;
+  int32 age = 3;
+}

@@ -1,4 +1,4 @@
-package com.banmo.sweethomeclient.proto;
+package com.banmo.sweethomeclient.pojo;
 
 import java.util.Date;
 

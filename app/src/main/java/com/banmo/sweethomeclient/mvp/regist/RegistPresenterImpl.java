@@ -3,13 +3,13 @@ package com.banmo.sweethomeclient.mvp.regist;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.banmo.sweethomeclient.proto.User;
+import com.banmo.sweethomeclient.pojo.User;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.UUID;
 
-import static com.banmo.sweethomeclient.client.tool.OkHttpTools.post;
+import static com.banmo.sweethomeclient.tool.OkHttpTools.post;
 
 
 class RegistPresenterImpl implements IRegistPresenter {

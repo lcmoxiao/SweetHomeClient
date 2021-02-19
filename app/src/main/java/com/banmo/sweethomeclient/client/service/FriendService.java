@@ -3,12 +3,12 @@ package com.banmo.sweethomeclient.client.service;
 import android.util.Log;
 
 import com.banmo.sweethomeclient.client.ConnectorClient;
-import com.banmo.sweethomeclient.client.tool.GsonTools;
-import com.banmo.sweethomeclient.client.tool.MsgGenerateTools;
-import com.banmo.sweethomeclient.client.tool.OkHttpTools;
-import com.banmo.sweethomeclient.proto.ConnectorMsg;
-import com.banmo.sweethomeclient.proto.FriendRelation;
-import com.banmo.sweethomeclient.proto.User;
+import com.banmo.sweethomeclient.pojo.ConnectorMsg;
+import com.banmo.sweethomeclient.pojo.FriendRelation;
+import com.banmo.sweethomeclient.pojo.User;
+import com.banmo.sweethomeclient.tool.GsonTools;
+import com.banmo.sweethomeclient.tool.MsgGenerateTools;
+import com.banmo.sweethomeclient.tool.OkHttpTools;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -24,6 +24,14 @@ public class FriendService {
         List<User> users = parseUsers(OkHttpTools.get("friendrelation/toUser?userid=" + userid));
         Log.e(TAG, "getFriends: size=" + users.size());
         return users;
+    }
+
+    public static int getFriendSize(int userid) {
+        String s = OkHttpTools.get("friendrelation/size?userid=" + userid);
+        if (s == null) return 0;
+        int size = Integer.parseInt(s);
+        Log.e(TAG, "getFriendSize: size=" + size);
+        return size;
     }
 
     public static List<FriendRelation> getFriendRelations(int userid) {

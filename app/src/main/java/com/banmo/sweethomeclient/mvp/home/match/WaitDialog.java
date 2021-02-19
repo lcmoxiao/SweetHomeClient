@@ -11,13 +11,12 @@ public class WaitDialog extends Dialog {
     private final TextView waitText;
 
 
-
     public WaitDialog(Context context) {
         super(context);
         setCanceledOnTouchOutside(false);//按对话框以外的地方不起作用，按返回键可以取消对话框
         getWindow().setGravity(Gravity.CENTER);
         setContentView(R.layout.dialog_wait_layout);
-        waitText = (TextView) findViewById(R.id.tv_wait_dialog_text);
+        waitText = findViewById(R.id.tv_wait_dialog_text);
     }
 
     /**

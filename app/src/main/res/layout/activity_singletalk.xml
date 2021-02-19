@@ -52,13 +52,13 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:background="@drawable/ic_person"
-            app:layout_constraintBottom_toBottomOf="@id/activity_singleTalk_dstUserInfoBtn"
-            app:layout_constraintEnd_toEndOf="@id/activity_singleTalk_dstUserInfoBtn"
-            app:layout_constraintStart_toStartOf="@id/activity_singleTalk_dstUserInfoBtn"
-            app:layout_constraintTop_toTopOf="@id/activity_singleTalk_dstUserInfoBtn" />
+            app:layout_constraintBottom_toBottomOf="@id/activity_singleTalk_detailBtn"
+            app:layout_constraintEnd_toEndOf="@id/activity_singleTalk_detailBtn"
+            app:layout_constraintStart_toStartOf="@id/activity_singleTalk_detailBtn"
+            app:layout_constraintTop_toTopOf="@id/activity_singleTalk_detailBtn" />
 
         <Button
-            android:id="@+id/activity_singleTalk_dstUserInfoBtn"
+            android:id="@+id/activity_singleTalk_detailBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="20dp"
@@ -230,13 +230,12 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.7" />
 
-            <TextView
-                android:id="@+id/activity_singleTalk_record_stopTv"
+            <Chronometer
+                android:id="@+id/activity_singleTalk_record_stopTimer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="44dp"
-                android:gravity="center"
-                android:text="@string/time00_00_01"
+                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="8pt"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -333,17 +332,25 @@
                 app:layout_constraintTop_toBottomOf="@+id/activity_singleTalk_record_rerecordBtn" />
 
 
-            <TextView
-                android:id="@+id/activity_singleTalk_record_previewTimeTv"
-                android:layout_width="match_parent"
+            <Chronometer
+                android:id="@+id/activity_singleTalk_record_previewTimer"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
-                android:gravity="center"
-                android:text="@string/time000001000013"
+               android:textColor="@color/white"
+                android:textSize="8pt"
+                app:layout_constraintRight_toLeftOf="@+id/activity_singleTalk_record_previewBtnIc"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/activity_singleTalk_record_previewTimeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time00_00_01"
                 android:textColor="@color/white"
                 android:textSize="8pt"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintLeft_toRightOf="@+id/activity_singleTalk_record_previewBtnIc"
+                app:layout_constraintTop_toTopOf="@+id/activity_singleTalk_record_previewTimer" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,7 +22,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/home_switchgroup_bottom"
         android:layout_width="match_parent"
-        android:layout_height="180px"
+        android:layout_height="68dp"
         android:background="#56FFFF80"
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,12 +31,15 @@
 
         <Button
             android:id="@+id/home_find_bt"
-            android:layout_width="70px"
-            android:layout_height="61px"
+            android:layout_width="26dp"
+            android:layout_height="23dp"
 
-            android:layout_marginLeft="200px"
-            android:layout_marginBottom="30px"
+            android:layout_marginStart="76dp"
+            android:layout_marginBottom="11dp"
+
             android:background="@drawable/ic_earth"
+            android:cropToPadding="true"
+            android:padding="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
 
@@ -48,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
-            android:text="遇"
+            android:text="@string/meet"
             android:textColor="@color/white"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -59,11 +62,13 @@
 
         <Button
             android:id="@+id/home_friend_bt"
-            android:layout_width="70px"
-            android:layout_height="61px"
-            android:layout_marginBottom="30px"
+            android:layout_width="26dp"
+            android:layout_height="23dp"
+            android:layout_marginBottom="11dp"
             android:background="@drawable/ic_friend"
             android:button="@null"
+            android:cropToPadding="true"
+            android:padding="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/home_find_bt"
             app:layout_constraintRight_toLeftOf="@+id/home_mine_bt"
@@ -74,7 +79,7 @@
             android:layout_height="wrap_content"
 
             android:layout_marginTop="22dp"
-            android:text="知"
+            android:text="@string/friend1"
             android:textColor="@color/white"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -85,12 +90,14 @@
 
         <Button
             android:id="@+id/home_mine_bt"
-            android:layout_width="66px"
-            android:layout_height="61px"
-            android:layout_marginRight="200px"
-            android:layout_marginBottom="30px"
+            android:layout_width="25dp"
+            android:layout_height="23dp"
+            android:layout_marginEnd="76dp"
+            android:layout_marginBottom="11dp"
             android:background="@drawable/ic_mine"
             android:button="@null"
+            android:cropToPadding="true"
+            android:padding="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/home_friend_bt"
             app:layout_constraintRight_toRightOf="parent"
@@ -101,7 +108,7 @@
             android:layout_height="wrap_content"
 
             android:layout_marginTop="22dp"
-            android:text="己"
+            android:text="@string/me"
             android:textColor="@color/white"
 
             app:layout_constraintBottom_toBottomOf="parent"

@@ -2,7 +2,6 @@ package com.banmo.sweethomeclient.mvp.home.friend;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,10 +20,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.banmo.sweethomeclient.R;
 import com.banmo.sweethomeclient.client.UserInfos;
-import com.banmo.sweethomeclient.client.tool.SqLiteTOOLs;
+import com.banmo.sweethomeclient.client.service.UserService;
 import com.banmo.sweethomeclient.customview.CircleImageView;
+import com.banmo.sweethomeclient.mvp.home.Flush;
 import com.banmo.sweethomeclient.mvp.singletalk.SingleTalkActivity;
-import com.banmo.sweethomeclient.proto.User;
+import com.banmo.sweethomeclient.pojo.User;
+import com.banmo.sweethomeclient.tool.SqLiteTOOLs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 import static com.banmo.sweethomeclient.mvp.home.HomeActivity.switchFragment;
 
-public class FriendFragment extends Fragment {
+public class FriendFragment extends Fragment implements Flush {
 
     private static final Handler handler = new Handler(Looper.getMainLooper());
     private static final String TAG = "FriendFragment";
@@ -53,24 +54,26 @@ public class FriendFragment extends Fragment {
             User user = friends.get(i);
             com.banmo.sweethomeclient.mvp.singletalk.MsgDateBean msgDateBean = SqLiteTOOLs.selectLastByUserid(user.getUserid());
             MsgDateBean mdb = null;
+            String username = user.getUsername();
+            Bitmap headImg = UserService.getHeadImgByUseridAndFlushCache(user.getUserid());
+
             if (msgDateBean == null) {
-                Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
-                bmp.eraseColor(Color.parseColor("#FFEC808D"));
-                mdb = new MsgDateBean(bmp, user.getUsername(), "无消息", "", "在线");
+                mdb = new MsgDateBean(headImg, username, "无消息", "", "在线");
             } else {
                 int msgType = msgDateBean.getMsgType();
+                String createTime = msgDateBean.getCreateTime();
                 if (msgType == 0) {
-                    mdb = new MsgDateBean(msgDateBean.getHeadImg(), user.getUsername(), user.getUsername() + "：" + new String(msgDateBean.getContent()), msgDateBean.getTime(), "在线");
+                    mdb = new MsgDateBean(headImg, username, username + "：" + new String(msgDateBean.getContent()), createTime, "在线");
                 } else if (msgType == 1) {
-                    mdb = new MsgDateBean(msgDateBean.getHeadImg(), user.getUsername(), "我：" + new String(msgDateBean.getContent()), msgDateBean.getTime(), "在线");
+                    mdb = new MsgDateBean(headImg, username, "我：" + new String(msgDateBean.getContent()), createTime, "在线");
                 } else if (msgType == 2) {
-                    mdb = new MsgDateBean(msgDateBean.getHeadImg(), user.getUsername(), "图片", msgDateBean.getTime(), "在线");
+                    mdb = new MsgDateBean(headImg, username, "图片", createTime, "在线");
                 } else if (msgType == 3) {
-                    mdb = new MsgDateBean(msgDateBean.getHeadImg(), user.getUsername(), "我：" + "图片", msgDateBean.getTime(), "在线");
+                    mdb = new MsgDateBean(headImg, username, "我：" + "图片", createTime, "在线");
                 } else if (msgType == 4) {
-                    mdb = new MsgDateBean(msgDateBean.getHeadImg(), user.getUsername(), "语音", msgDateBean.getTime(), "在线");
+                    mdb = new MsgDateBean(headImg, username, "语音", createTime, "在线");
                 } else if (msgType == 5) {
-                    mdb = new MsgDateBean(msgDateBean.getHeadImg(), user.getUsername(), "我：" + "语音", msgDateBean.getTime(), "在线");
+                    mdb = new MsgDateBean(headImg, username, "我：" + "语音", createTime, "在线");
                 }
             }
             msgDateBeans.add(mdb);
@@ -90,7 +93,7 @@ public class FriendFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.e(TAG, "onResume: ");
-        flushFriendsList();
+        flushViewFromData();
     }
 
     @Override
@@ -109,12 +112,23 @@ public class FriendFragment extends Fragment {
         super.onStart();
         Log.e(TAG, "onStart: ");
         friendRemind.setOnClickListener(v -> switchFragment(3));
-
-        flushFriendsList();
-
     }
 
-    private void flushFriendsList() {
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.e(TAG, "onActivityResult: " + requestCode + " " + resultCode);
+        //从SingleTalk返回
+        if (requestCode == 10) {
+            if (resultCode == RESULT_OK) {
+                Log.e(TAG, "onActivityResult: 从SingleTalk返回 flushViewFromData");
+                flushViewFromData();
+            }
+        }
+    }
+
+    @Override
+    public void flushViewFromData() {
         new Thread(() -> {
             UserInfos.flushFriendsInfo();
             String s = UserInfos.friends.size() + "/" + UserInfos.user.getUserfriendsize();
@@ -130,22 +144,11 @@ public class FriendFragment extends Fragment {
                             false
                     ));
                 } else {
-                    Log.e(TAG, "flushFriendsList: " + UserInfos.friends);
                     friendRVAdapter.setMsgDateBeans(msgDateBeans);
                 }
             }, 0);
         }).start();
-    }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        Log.e(TAG, "onActivityResult: " + requestCode + " " + resultCode);
-        if (requestCode == 10) {
-            if (resultCode == RESULT_OK) {
-                Log.e(TAG, "onActivityResult: flushFriendsList");
-                flushFriendsList();
-            }
-        }
     }
 
 

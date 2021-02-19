@@ -1,4 +1,4 @@
-package com.banmo.sweethomeclient.proto;
+package com.banmo.sweethomeclient.pojo;
 
 import java.util.Date;
 
@@ -13,6 +13,8 @@ public class User {
 
     private Date userbirth;
 
+    private Byte usersex;
+
     @Override
     public String toString() {
         return "User{" +
@@ -26,10 +28,9 @@ public class User {
                 ", usermail='" + usermail + '\'' +
                 ", userfriendsize=" + userfriendsize +
                 ", userstate=" + userstate +
+                ", headimg='" + headimg + '\'' +
                 '}';
     }
-
-    private Byte usersex;
 
     private String userphone;
 
@@ -38,6 +39,8 @@ public class User {
     private Integer userfriendsize;
 
     private Integer userstate;
+
+    private String headimg;
 
     public Integer getUserid() {
         return userid;
@@ -117,5 +120,13 @@ public class User {
 
     public void setUserstate(Integer userstate) {
         this.userstate = userstate;
+    }
+
+    public String getHeadimg() {
+        return headimg;
+    }
+
+    public void setHeadimg(String headimg) {
+        this.headimg = headimg;
     }
 }

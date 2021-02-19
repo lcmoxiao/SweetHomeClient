@@ -17,13 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.banmo.sweethomeclient.R;
+import com.banmo.sweethomeclient.mvp.home.Flush;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.banmo.sweethomeclient.mvp.home.HomeActivity.switchFragment;
 
-public class MsgCenterFragment extends Fragment {
+public class MsgCenterFragment extends Fragment implements Flush {
 
     private View mRootView;
     private Button backBtn;
@@ -66,6 +67,11 @@ public class MsgCenterFragment extends Fragment {
                 false
         ));
         recyclerView.setAdapter(new MsgAdapter(msgDateBeans));
+    }
+
+    @Override
+    public void flushViewFromData() {
+
     }
 
     private static class MsgDateBean {

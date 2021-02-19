@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.banmo.sweethomeclient.client.handler.BeatClientHandler;
 import com.banmo.sweethomeclient.client.handler.MsgHandler;
-import com.banmo.sweethomeclient.proto.ConnectorMsg;
+import com.banmo.sweethomeclient.pojo.ConnectorMsg;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,13 +32,42 @@ public class ConnectorClient {
     static Channel channel;
 
     public static Channel getChannel() {
-        if (channel == null)
+        if (channel == null) {
             reconnect();
+        }
         return channel;
     }
 
+    public static void offline() {
+        channel.close();
+        channel = null;
+    }
 
-    public static void connect() {
+    public static void buildConnect() {
+        new Thread() {
+            @Override
+            public void run() {
+                for (; ; ) {
+                    try {
+                        connect();
+                        break;
+                    } catch (Exception e) {
+                        Log.e("ConnectorClient", "连接失败:" + e.getMessage() + "五秒后尝试重连");
+                        synchronized (this) {
+                            try {
+                                wait(5000);
+                            } catch (InterruptedException interruptedException) {
+                                interruptedException.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        }.start();
+    }
+
+
+    private static void connect() throws InterruptedException {
         Log.e("ConnectorClient", "连接中");
         EventLoopGroup group = new NioEventLoopGroup();
 
@@ -64,22 +93,21 @@ public class ConnectorClient {
                         }
                     });
             ChannelFuture f = null;
-            try {
-                f = b.connect(host, port).sync();
-                Log.e("ConnectorClient", "连接成功" + f);
 
-                channel = f.channel();
-                channel.closeFuture().sync();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            f = b.connect(host, port).sync();
+            Log.e("ConnectorClient", "连接成功" + f);
+
+            channel = f.channel();
+            channel.closeFuture().sync();
+
         } finally {
             group.shutdownGracefully();
         }
     }
 
     public static void reconnect() {
-        connect();
+        Log.e("ConnectorClient", "重新连接中");
+        buildConnect();
     }
 
 }

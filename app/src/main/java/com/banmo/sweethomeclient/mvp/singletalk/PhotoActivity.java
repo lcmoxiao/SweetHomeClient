@@ -2,11 +2,9 @@ package com.banmo.sweethomeclient.mvp.singletalk;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -15,15 +13,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.banmo.sweethomeclient.R;
 import com.banmo.sweethomeclient.client.UserInfos;
 import com.banmo.sweethomeclient.client.service.TransService;
-import com.banmo.sweethomeclient.client.tool.DateFormatTools;
-import com.banmo.sweethomeclient.client.tool.SqLiteTOOLs;
+import com.banmo.sweethomeclient.tool.BitmapTools;
+import com.banmo.sweethomeclient.tool.DateTools;
+import com.banmo.sweethomeclient.tool.SqLiteTOOLs;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.Date;
 import java.util.UUID;
 
 import static com.banmo.sweethomeclient.mvp.singletalk.SingleTalkActivity.adapter;
+import static com.banmo.sweethomeclient.tool.BitmapTools.parseBitmapByUri;
 
 public class PhotoActivity extends AppCompatActivity {
 
@@ -71,17 +70,16 @@ public class PhotoActivity extends AppCompatActivity {
                 }
             } else {
                 //从左到右分别为 msgType，UserID，TIME，CONTENT
-                SqLiteTOOLs.insert(3, friendID, DateFormatTools.formatToSecond(new Date()), byteArray);
+                SqLiteTOOLs.insert(3,friendID, DateTools.formatToSecond(new Date()), byteArray, "无");
                 TransService.sendImgMsg(UUID.randomUUID().hashCode(), UserInfos.getUserid(), friendID, 0, byteArray);
             }
             Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
             bmp.eraseColor(Color.parseColor("#FFEC808D"));
-            adapter.addItem(new MsgDateBean(bmp, byteArray, DateFormatTools.getNowTime(), UserInfos.getUserid(), 3));
+            adapter.addItem(new MsgDateBean(byteArray, DateTools.getNowTimeToSecond(), UserInfos.getUserid(), 3, "无"));
             finish();
         });
 
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -90,12 +88,14 @@ public class PhotoActivity extends AppCompatActivity {
             if (requestCode == TAKE_PICTURE) {
                 Bitmap bm = (Bitmap) data.getExtras().get("data");
                 contentIv.setImageBitmap(bm);//想图像显示在ImageView视图上，private ImageView img;
-                tmpImg = bm;
+                tmpImg = BitmapTools.compressBmp(bm);
+
             } else if (requestCode == SELECT_PICTURE && data != null && data.getData() != null) {
                 Uri uri = data.getData();
-                Bitmap bm = parseBitmapByUri(uri);
+                Bitmap bm = parseBitmapByUri(getContentResolver(), uri);
                 contentIv.setImageBitmap(bm);
-                tmpImg = bm;
+                assert bm != null;
+                tmpImg = BitmapTools.compressBmp(bm);
             } else {
                 finish();
             }
@@ -104,21 +104,5 @@ public class PhotoActivity extends AppCompatActivity {
         }
     }
 
-
-    //通过Uri获取bitmap
-    private Bitmap parseBitmapByUri(Uri uri) {
-        try {
-            InputStream input = getContentResolver().openInputStream(uri);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 1;
-            options.inJustDecodeBounds = false;
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            return BitmapFactory.decodeStream(input, null, options);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Log.e("e", "getImgFromUri failed");
-        return null;
-    }
 
 }

@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.banmo.sweethomeclient.R;
+import com.banmo.sweethomeclient.client.ConnectorClient;
 import com.banmo.sweethomeclient.mvp.login.LoginActivity;
 
 public class RegistActivity extends AppCompatActivity implements IRegistView {
@@ -39,12 +40,16 @@ public class RegistActivity extends AppCompatActivity implements IRegistView {
 
     void initBtnListener() {
         signBtn.setOnClickListener(v -> {
-            if (pwdEt.getText().toString().equals(reCheckPwdEt.getText().toString())) {
-                registPresenter.doRegist(mailEt.getText().toString(), pwdEt.getText().toString());
+            if (ConnectorClient.getChannel() == null) {
+                Toast.makeText(this, "网络未连接", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "两次输入的密码不一致，请重新输入密码", Toast.LENGTH_SHORT).show();
-                pwdEt.setText("");
-                reCheckPwdEt.setText("");
+                if (pwdEt.getText().toString().equals(reCheckPwdEt.getText().toString())) {
+                    registPresenter.doRegist(mailEt.getText().toString(), pwdEt.getText().toString());
+                } else {
+                    Toast.makeText(this, "两次输入的密码不一致，请重新输入密码", Toast.LENGTH_SHORT).show();
+                    pwdEt.setText("");
+                    reCheckPwdEt.setText("");
+                }
             }
         });
         loginSwitchBtn.setOnClickListener(v -> {

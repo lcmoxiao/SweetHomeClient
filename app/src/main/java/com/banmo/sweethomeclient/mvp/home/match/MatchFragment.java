@@ -21,11 +21,12 @@ import com.banmo.sweethomeclient.R;
 import com.banmo.sweethomeclient.client.UserInfos;
 import com.banmo.sweethomeclient.client.handler.MsgHandler;
 import com.banmo.sweethomeclient.client.service.MatchService;
+import com.banmo.sweethomeclient.mvp.home.Flush;
 import com.banmo.sweethomeclient.mvp.singletalk.SingleTalkActivity;
 
 import java.lang.ref.WeakReference;
 
-public class MatchFragment extends Fragment {
+public class MatchFragment extends Fragment implements Flush {
 
     private static final Handler handler = new Handler(Looper.getMainLooper());
     //hobbies
@@ -58,9 +59,7 @@ public class MatchFragment extends Fragment {
     private int dstHobby = 0;
 
     public void onMatchSuccess() {
-        handler.postDelayed(() -> {
-            Toast.makeText(getContext(), "匹配成功", Toast.LENGTH_SHORT).show();
-        }, 1);
+        handler.postDelayed(() -> Toast.makeText(getContext(), "匹配成功", Toast.LENGTH_SHORT).show(), 1);
         waitDialog.dismiss();
 
         Intent intent = new Intent(getContext(), SingleTalkActivity.class);
@@ -131,8 +130,14 @@ public class MatchFragment extends Fragment {
         groupMatchBtn.setOnClickListener(v -> {
             MatchService.groupMatch(UserInfos.user, dstHobby);
             UserInfos.usingState = UserInfos.UsingState.GROUP_MATCH;
-
+            MsgHandler.matchFragment = new WeakReference<>(this);
+            handler.postDelayed(() -> waitDialog.show(), 1);//显示等待对话框
         });
+    }
+
+    @Override
+    public void flushViewFromData() {
+
     }
 
 

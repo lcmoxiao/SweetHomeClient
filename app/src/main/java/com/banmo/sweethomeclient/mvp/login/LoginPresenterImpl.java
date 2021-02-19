@@ -6,14 +6,14 @@ import android.os.Looper;
 import com.banmo.sweethomeclient.client.ConnectorClient;
 import com.banmo.sweethomeclient.client.UserInfos;
 import com.banmo.sweethomeclient.client.service.LoginService;
-import com.banmo.sweethomeclient.proto.User;
+import com.banmo.sweethomeclient.pojo.User;
 
-import static com.banmo.sweethomeclient.client.tool.MsgGenerateTools.generateConnectMessage;
+import static com.banmo.sweethomeclient.tool.MsgGenerateTools.generateConnectMessage;
 
 class LoginPresenterImpl implements ILoginPresenter {
-    private ILoginView loginView; //视图
+    private final ILoginView loginView; //视图
 
-    private Handler handler;
+    private final Handler handler;
 
     public LoginPresenterImpl(ILoginView loginView) {
         this.loginView = loginView;
@@ -26,13 +26,11 @@ class LoginPresenterImpl implements ILoginPresenter {
             User user = LoginService.login(mail, pwd);
             if (user == null) {
                 handler.postDelayed(() -> loginView.onLoginResult(false), 1);
-                System.out.println("登录失败");
-                return;
+            } else {
+                UserInfos.user = user;
+                ConnectorClient.getChannel().writeAndFlush(generateConnectMessage(UserInfos.user.getUserid()));
+                handler.postDelayed(() -> loginView.onLoginResult(true), 1);
             }
-            System.out.println("登陆成功" + user);
-            UserInfos.user = user;
-            ConnectorClient.getChannel().writeAndFlush(generateConnectMessage(UserInfos.user.getUserid()));
-            handler.postDelayed(() -> loginView.onLoginResult(true), 1);
         }).start();
     }
 

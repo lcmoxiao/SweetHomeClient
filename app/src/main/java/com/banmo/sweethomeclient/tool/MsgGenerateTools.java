@@ -1,7 +1,7 @@
-package com.banmo.sweethomeclient.client.tool;
+package com.banmo.sweethomeclient.tool;
 
 import com.banmo.sweethomeclient.client.ConnectorClient;
-import com.banmo.sweethomeclient.proto.ConnectorMsg;
+import com.banmo.sweethomeclient.pojo.ConnectorMsg;
 import com.google.protobuf.ByteString;
 
 import io.netty.channel.ChannelFuture;
@@ -12,10 +12,6 @@ public class MsgGenerateTools {
         return (min << 16) | max;
     }
 
-    public static ChannelFuture sendTestTransMessage(int srcUserid, int dstUserid) {
-        return ConnectorClient.getChannel()
-                .writeAndFlush(generateTransMessage(1, srcUserid, dstUserid, 0, ConnectorMsg.Trans.MsgType.WORD, "1to2".getBytes()));
-    }
 
     public static ChannelFuture sendTestConnectMessage(int userid) {
         return ConnectorClient.getChannel()
@@ -37,13 +33,13 @@ public class MsgGenerateTools {
     }
 
 
-    public static ConnectorMsg.cMsgInfo generateTransMessage(int msgID, int srcUserid, int dstUserid, int dstGroupid, ConnectorMsg.Trans.MsgType msgType, byte[] msgContent) {
+    public static ConnectorMsg.cMsgInfo generateTransMessage(int msgID, int srcUserid, int dstUserid, int dstGroupid, ConnectorMsg.Trans.MsgType msgType, byte[] msgContent, String recordTime) {
         ConnectorMsg.cMsgInfo.Builder builder = ConnectorMsg.cMsgInfo.newBuilder();
         builder.setCMsgType(ConnectorMsg.cMsgInfo.CMsgType.TRANS);
         ConnectorMsg.Trans.Builder transMsg = ConnectorMsg.Trans.newBuilder();
         transMsg.setMsgID(msgID)
                 .setMsgMark(0)
-                .setRetryTimes(0)
+                .setRecordTime(ByteString.copyFromUtf8(recordTime))
                 .setSrcUserid(srcUserid)
                 .setDstUserid(dstUserid)
                 .setDstGroupid(dstGroupid)

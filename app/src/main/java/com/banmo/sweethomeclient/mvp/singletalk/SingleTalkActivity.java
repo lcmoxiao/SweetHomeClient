@@ -7,17 +7,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.banmo.sweethomeclient.R;
 import com.banmo.sweethomeclient.client.UserInfos;
@@ -25,9 +21,13 @@ import com.banmo.sweethomeclient.client.handler.MsgHandler;
 import com.banmo.sweethomeclient.client.service.FriendService;
 import com.banmo.sweethomeclient.client.service.MatchService;
 import com.banmo.sweethomeclient.client.service.TransService;
-import com.banmo.sweethomeclient.client.tool.DateFormatTools;
-import com.banmo.sweethomeclient.client.tool.SqLiteTOOLs;
+import com.banmo.sweethomeclient.databinding.ActivitySingletalkBinding;
+import com.banmo.sweethomeclient.mvp.detail.FriendDetailActivity;
+import com.banmo.sweethomeclient.tool.DateTools;
+import com.banmo.sweethomeclient.tool.SqLiteTOOLs;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -40,94 +40,75 @@ public class SingleTalkActivity extends Activity {
 
     private static final Handler handler = new Handler(Looper.getMainLooper());
     private static final String TAG = "SingleTalkActivity";
-
     public static MsgAdapter adapter;
-    TextView dstUsernameTv;
-    TextView dstUserStateTv;
-    EditText inputEt;
-    Button sendBtn;
-    Button makePhotoBtn;
-    Button selectPhotoBtn;
-    Button recordBtn;
-    Button backBtn;
-    Button detailBtn;
-    RecyclerView recyclerView;
-    //录音功能区
-    ConstraintLayout recordLayout;
-    ConstraintLayout recordStartLayout;
-    ConstraintLayout recordStopLayout;
-    ConstraintLayout recordPreviewLayout;
-    Button recordStartBtn;
-    Button recordStopBtn;
-    TextView recordingTimeTv;
-    Button recordPreviewBtn;
-    TextView recordPreviewBtnIc;
-    TextView recordPreviewBtnTv;
-    TextView recordPlayingTimeTv;
-    Button recordSendBtn;
-    Button recordRerecordBtn;
-    boolean isPlaying = false;//记录播放状态
+    ActivitySingletalkBinding inflate;
+    boolean isPreviewing = false;//记录播放状态
     //数据缓存区
     int friendID;
+    ByteArrayOutputStream recordOut = new ByteArrayOutputStream(); //  录音缓存
+    AudioRecordImpl audioRecord = new AudioRecordImpl() {
+        @Override
+        void fireData(byte[] buffer) {
+            try {
+                recordOut.write(buffer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    AudioTrackImpl audioTrack = new AudioTrackImpl() {
+        @Override
+        void onFinished() {
+            handler.postDelayed(() -> {
+                inflate.activitySingleTalkRecordPreviewBtn.setBackgroundResource(R.drawable.ic_recordplay1);
+                inflate.activitySingleTalkRecordPreviewBtnIc.setBackgroundResource(R.drawable.ic_recordplay2);
+                inflate.activitySingleTalkRecordPreviewTimer.setBase(SystemClock.elapsedRealtime());
+                inflate.activitySingleTalkRecordPreviewTimer.stop();
+                Toast.makeText(SingleTalkActivity.this, "播放结束", Toast.LENGTH_SHORT).show();
+                isPreviewing = !isPreviewing;
+            }, 0);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e(TAG, "onCreate: ");
-        
-        setContentView(R.layout.activity_singletalk);
 
-        dstUsernameTv = findViewById(R.id.activity_singleTalk_dstUsername);
-        dstUserStateTv = findViewById(R.id.activity_singleTalk_dstUserState);
+        inflate = ActivitySingletalkBinding.inflate(getLayoutInflater());
+        setContentView(inflate.getRoot());
 
-        inputEt = findViewById(R.id.activity_singleTalk_inputEt);
-        sendBtn = findViewById(R.id.activity_singleTalk_sendBtn);
-        makePhotoBtn = findViewById(R.id.activity_singleTalk_makePhotoBtn);
-        selectPhotoBtn = findViewById(R.id.activity_singleTalk_photoBtn);
-        recordBtn = findViewById(R.id.activity_singleTalk_recordBtn);
-        backBtn = findViewById(R.id.activity_singleTalk_backBtn);
-        detailBtn = findViewById(R.id.activity_singleTalk_dstUserInfoBtn);
-        recyclerView = findViewById(R.id.activity_singleTalk_recyclerView);
-
-        recordLayout = findViewById(R.id.activity_singleTalk_recordLayout);
-        recordStartLayout = findViewById(R.id.activity_singleTalk_recordStartLayout);
-        recordStopLayout = findViewById(R.id.activity_singleTalk_recordStopLayout);
-        recordPreviewLayout = findViewById(R.id.activity_singleTalk_recordPreviewLayout);
-        recordStartBtn = findViewById(R.id.activity_singleTalk_record_startBtn);
-        recordStopBtn = findViewById(R.id.activity_singleTalk_record_stopBtn);
-        recordPreviewBtn = findViewById(R.id.activity_singleTalk_record_previewBtn);
-        recordPreviewBtnIc = findViewById(R.id.activity_singleTalk_record_previewBtnIc);
-        recordPreviewBtnTv = findViewById(R.id.activity_singleTalk_record_previewBtnTv);
-        recordPlayingTimeTv = findViewById(R.id.activity_singleTalk_record_previewTimeTv);
-        recordSendBtn = findViewById(R.id.activity_singleTalk_record_sendBtn);
-        recordRerecordBtn = findViewById(R.id.activity_singleTalk_record_rerecordBtn);
-
-        recordingTimeTv = findViewById(R.id.activity_singleTalk_record_stopTv);
         initClick();
         initMsgList();
 
         Intent intent = getIntent();
         String flag = intent.getStringExtra("flag");
-        if (flag.equals("friend")) {
-            dstUsernameTv.setText(intent.getStringExtra("dstUsername"));
-            dstUserStateTv.setText(intent.getStringExtra("dstUserState"));
-            friendID = intent.getIntExtra("friendID", 0);
-            UserInfos.usingState = UserInfos.UsingState.FRIEND_TALK;
-            LinkedList<MsgDateBean> msgDateBeans = SqLiteTOOLs.selectByUserid(friendID);
-            msgDateBeans.forEach(v -> adapter.addItem(v));
-        } else if (flag.equals("singleMatch")) {
-            new Thread(() -> {
+        switch (flag) {
+            case "friend": {
+                inflate.activitySingleTalkDstUsername.setText(intent.getStringExtra("dstUsername"));
+                inflate.activitySingleTalkDstUserState.setText(intent.getStringExtra("dstUserState"));
+                friendID = intent.getIntExtra("friendID", 0);
+                UserInfos.usingState = UserInfos.UsingState.FRIEND_TALK;
+                LinkedList<MsgDateBean> msgDateBeans = SqLiteTOOLs.selectByUserid(friendID);
+                msgDateBeans.forEach(v -> adapter.addItem(v));
+                break;
+            }
+            case "singleMatch": {
+                new Thread(() -> inflate.activitySingleTalkDstUsername.setText(UserInfos.matchUser.getUsername())).start();
                 UserInfos.usingState = UserInfos.UsingState.ON_SINGLE_MATCH;
-                dstUsernameTv.setText(UserInfos.matchUser.getUsername());
                 String mt = "matching";
-                dstUserStateTv.setText(mt);
-            }).start();
-        } else if (flag.equals("groupMatch")) {
-            UserInfos.usingState = UserInfos.UsingState.ON_GROUP_MATCH;
-            String mt = "XX群组";
-            dstUsernameTv.setText(mt);
-            String gmt = "groupMatching";
-            dstUserStateTv.setText(gmt);
+                inflate.activitySingleTalkDstUserState.setText(mt);
+                break;
+            }
+            case "groupMatch": {
+                UserInfos.usingState = UserInfos.UsingState.ON_GROUP_MATCH;
+                String mt = "XX群组";
+                inflate.activitySingleTalkDstUsername.setText(mt);
+                String gmt = "groupMatching";
+                inflate.activitySingleTalkDstUserState.setText(gmt);
+                inflate.activitySingleTalkDetailBtn.setVisibility(View.GONE);
+                break;
+            }
         }
 
     }
@@ -139,19 +120,21 @@ public class SingleTalkActivity extends Activity {
     }
 
     private void initMsgList() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(
+        inflate.activitySingleTalkRecyclerView.setLayoutManager(new LinearLayoutManager(
                 getBaseContext(),
                 LinearLayoutManager.VERTICAL,
                 false
         ));
         List<MsgDateBean> msgDateBeans = new ArrayList<>();
-        adapter = new MsgAdapter(msgDateBeans, this);
-        recyclerView.setAdapter(adapter);
+        adapter = new MsgAdapter(msgDateBeans, this, handler);
+        inflate.activitySingleTalkRecyclerView.setAdapter(adapter);
     }
 
     private void initClick() {
-        sendBtn.setOnClickListener(v -> {
-            byte[] bytes = inputEt.getText().toString().getBytes();
+        inflate.activitySingleTalkBackBtn.setOnClickListener(v -> finish());
+
+        inflate.activitySingleTalkSendBtn.setOnClickListener(v -> {
+            byte[] bytes = inflate.activitySingleTalkInputEt.getText().toString().getBytes();
 
             if (UserInfos.isOnMatching()) {
                 if (UserInfos.isGroupMatching()) {
@@ -161,76 +144,125 @@ public class SingleTalkActivity extends Activity {
                 }
             } else {
                 //从左到右分别为 msgType，UserID，TIME，CONTENT
-                SqLiteTOOLs.insert(1, friendID, DateFormatTools.getNowTime(), bytes);
+                SqLiteTOOLs.insert(1, friendID, DateTools.getNowTimeToSecond(), bytes, "无");
                 TransService.sendTextMsg(UUID.randomUUID().hashCode(), UserInfos.getUserid(), friendID, 0, bytes);
             }
 
             Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
             bmp.eraseColor(Color.parseColor("#FFEC808D"));
-            adapter.addItem(new MsgDateBean(bmp, inputEt.getText().toString().getBytes(), DateFormatTools.getNowTime(), 1, 1));
-            inputEt.setText("");
+            adapter.addItem(new MsgDateBean(inflate.activitySingleTalkInputEt.getText().toString().getBytes(), DateTools.getNowTimeToSecond(), 1, 1, "无"));
+            inflate.activitySingleTalkInputEt.setText("");
         });
 
-        detailBtn.setOnClickListener(v -> {
+        inflate.activitySingleTalkDetailBtn.setOnClickListener(v -> {
             Intent intent = new Intent(this, FriendDetailActivity.class);
-            intent.putExtra("username", dstUsernameTv.getText());
+            intent.putExtra("username", inflate.activitySingleTalkDstUsername.getText());
             intent.putExtra("friendID", friendID);
             startActivityForResult(intent, 10);
         });
-        makePhotoBtn.setOnClickListener(v -> {
+        inflate.activitySingleTalkMakePhotoBtn.setOnClickListener(v -> {
             Intent intent = new Intent(this, PhotoActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("friendID", friendID);
             intent.putExtra("flag", "makePhoto");
             startActivity(intent);
         });
-        selectPhotoBtn.setOnClickListener(v -> {
+        inflate.activitySingleTalkPhotoBtn.setOnClickListener(v -> {
             Intent intent = new Intent(this, PhotoActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("friendID", friendID);
             intent.putExtra("flag", "selectPhoto");
             startActivity(intent);
         });
-        recordBtn.setOnClickListener(v -> {
-            recordLayout.setVisibility(View.VISIBLE);
-            recordStartLayout.setVisibility(View.VISIBLE);
-        });
-        recordStartBtn.setOnClickListener(v -> {
-            recordStartLayout.setVisibility(View.GONE);
-            recordStopLayout.setVisibility(View.VISIBLE);
-        });
-        recordStopBtn.setOnClickListener(v -> {
-            recordStopLayout.setVisibility(View.GONE);
-            recordPreviewLayout.setVisibility(View.VISIBLE);
-        });
-        recordPreviewBtn.setOnClickListener(v -> {
-            if (isPlaying) {
-                recordPreviewBtn.setBackgroundResource(R.drawable.ic_recordplay1);
-                recordPreviewBtnIc.setBackgroundResource(R.drawable.ic_recordplay2);
-            } else {
-                recordPreviewBtn.setBackgroundResource(R.drawable.ic_recordpause1);
-                recordPreviewBtnIc.setBackgroundResource(R.drawable.ic_recordpause2);
-            }
-            isPlaying = !isPlaying;
-        });
-        recordSendBtn.setOnClickListener(v -> {
-            recordLayout.setVisibility(View.GONE);
-            recordPreviewLayout.setVisibility(View.GONE);
-            if (UserInfos.isOnMatching()) {
-                if (UserInfos.isGroupMatching()) {
-                    TransService.sendTextMsg(0, UserInfos.getUserid(), 0, UserInfos.groupid, null);
-                } else {
-                    TransService.sendTextMsg(0, UserInfos.getUserid(), UserInfos.getMatcherID(), 0, null);
-                }
-            } else {
-                //从左到右分别为 msgType，UserID，TIME，CONTENT
-                SqLiteTOOLs.insert(1, friendID, DateFormatTools.getNowTime(), null);
-                TransService.sendTextMsg(UUID.randomUUID().hashCode(), UserInfos.getUserid(), friendID, 0, null);
-            }
-            Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
-            bmp.eraseColor(Color.parseColor("#FFEC808D"));
-            adapter.addItem(new MsgDateBean(bmp, "录音".getBytes(), DateFormatTools.getNowTime(), UserInfos.getUserid(), 5));
+        inflate.activitySingleTalkRecordBtn.setOnClickListener(v -> {
+            inflate.activitySingleTalkRecordLayout.setVisibility(View.VISIBLE);
+            inflate.activitySingleTalkRecordStartLayout.setVisibility(View.VISIBLE);
         });
 
+        inflate.activitySingleTalkRecordStartBtn.setOnClickListener(v -> startRecord());
+        inflate.activitySingleTalkRecordStopBtn.setOnClickListener(v -> stopRecord());
+        inflate.activitySingleTalkRecordPreviewBtn.setOnClickListener(v -> previewRecord());
+        inflate.activitySingleTalkRecordSendBtn.setOnClickListener(v -> sendRecord());
+        inflate.activitySingleTalkRecordRerecordBtn.setOnClickListener(v -> {
+            inflate.activitySingleTalkRecordLayout.setVisibility(View.GONE);
+            inflate.activitySingleTalkRecordPreviewLayout.setVisibility(View.GONE);
+            inflate.activitySingleTalkRecordLayout.setVisibility(View.VISIBLE);
+            inflate.activitySingleTalkRecordStartLayout.setVisibility(View.VISIBLE);
+            recordOut.reset();
+            audioRecord.release();
+            audioTrack.stopPlay();
+        });
+
+    }
+
+    private void stopRecord() {
+        inflate.activitySingleTalkRecordStopLayout.setVisibility(View.GONE);
+        inflate.activitySingleTalkRecordPreviewLayout.setVisibility(View.VISIBLE);
+
+        //结束录音
+        audioRecord.stopRecord();
+        //结束计时
+        inflate.activitySingleTalkRecordStopTimer.stop();
+        String s = inflate.activitySingleTalkRecordStopTimer.getText().toString();
+        inflate.activitySingleTalkRecordPreviewTimeTv.setText(s);
+        isPreviewing = false;
+    }
+
+    private void previewRecord() {
+
+        if (!isPreviewing) {
+            handler.postDelayed(() -> {
+                inflate.activitySingleTalkRecordPreviewBtn.setBackgroundResource(R.drawable.ic_recordpause1);
+                inflate.activitySingleTalkRecordPreviewBtnIc.setBackgroundResource(R.drawable.ic_recordpause2);
+                //开始播放计时
+                inflate.activitySingleTalkRecordPreviewTimer.setBase(SystemClock.elapsedRealtime());
+                inflate.activitySingleTalkRecordPreviewTimer.start();
+            }, 0);
+            //播放
+            if (!audioTrack.isPlaying()) {
+                audioTrack.setData(recordOut.toByteArray());
+            }
+            audioTrack.firstPlay();
+        } else {
+            inflate.activitySingleTalkRecordPreviewBtn.setBackgroundResource(R.drawable.ic_recordplay1);
+            inflate.activitySingleTalkRecordPreviewBtnIc.setBackgroundResource(R.drawable.ic_recordplay2);
+            inflate.activitySingleTalkRecordPreviewTimer.stop();
+            audioTrack.pausePlay();
+        }
+        isPreviewing = !isPreviewing;
+
+    }
+
+    private void sendRecord() {
+        inflate.activitySingleTalkRecordLayout.setVisibility(View.GONE);
+        inflate.activitySingleTalkRecordPreviewLayout.setVisibility(View.GONE);
+        String recordTime = inflate.activitySingleTalkRecordPreviewTimeTv.getText().toString();
+        if (UserInfos.isOnMatching()) {
+            if (UserInfos.isGroupMatching()) {
+                TransService.sendVoiceMsg(0, UserInfos.getUserid(), 0, UserInfos.groupid, recordOut.toByteArray(), recordTime);
+            } else {
+                TransService.sendVoiceMsg(0, UserInfos.getUserid(), UserInfos.getMatcherID(), 0, recordOut.toByteArray(), recordTime);
+            }
+        } else {
+            //从左到右分别为 msgType，UserID，TIME，CONTENT
+            SqLiteTOOLs.insert(5, friendID, DateTools.getNowTimeToSecond(), recordOut.toByteArray(), recordTime);
+            TransService.sendVoiceMsg(UUID.randomUUID().hashCode(), UserInfos.getUserid(), friendID, 0, recordOut.toByteArray(), recordTime);
+        }
+        Bitmap bmp = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
+        bmp.eraseColor(Color.parseColor("#FFEC808D"));
+        adapter.addItem(new MsgDateBean(recordOut.toByteArray(), DateTools.getNowTimeToSecond(), UserInfos.getUserid(), 5,
+                recordTime));
+    }
+
+    private void startRecord() {
+        inflate.activitySingleTalkRecordStartLayout.setVisibility(View.GONE);
+        inflate.activitySingleTalkRecordStopLayout.setVisibility(View.VISIBLE);
+        //开始录音
+        recordOut.reset();
+        audioRecord.startRecord(); //会通过fireData方法写入cacheOut中
+        //开启计时
+        inflate.activitySingleTalkRecordStopTimer.setBase(SystemClock.elapsedRealtime());
+        inflate.activitySingleTalkRecordStopTimer.start();
     }
 
     @Override
@@ -253,16 +285,19 @@ public class SingleTalkActivity extends Activity {
         UserInfos.usingState = UserInfos.UsingState.NULL;
     }
 
-    public void onReceiveMsg() {
+    public void onReceiveMsg(MsgDateBean msgDateBean) {
         Log.e(TAG, "onReceiveMsg: ");
-        handler.postDelayed(() -> adapter.addItem(SqLiteTOOLs.selectLastByUserid(friendID)), 0);
+        handler.postDelayed(() -> adapter.addItem(msgDateBean), 0);
     }
 
     public void matchReject() {
         Log.e("SingleTalkActivity", "matchReject");
         if (UserInfos.isOnMatching()) {
             new Thread(() ->
-                    MatchService.rejectMatch(UserInfos.isGroupMatching(), UserInfos.user.getUserid(), UserInfos.matchUser.getUserid(), UserInfos.groupid)).start();
+            {
+                int userid = UserInfos.matchUser == null ? 0 : UserInfos.matchUser.getUserid();
+                MatchService.rejectMatch(UserInfos.isGroupMatching(), UserInfos.user.getUserid(), userid, UserInfos.groupid);
+            }).start();
         }
     }
 
@@ -274,25 +309,23 @@ public class SingleTalkActivity extends Activity {
 
     public void onFriendWant(int userid1, int userid2) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setPositiveButton("同意", (dialog, which) -> {
-            FriendService.agreeToBeFriend(userid1, userid2);
-        });
-        builder.setNegativeButton("拒绝", (dialog, which) -> {
-            FriendService.disagreeToBeFriend(userid1, userid2);
-        });
+        builder.setPositiveButton("同意", (dialog, which) -> FriendService.agreeToBeFriend(userid1, userid2));
+        builder.setNegativeButton("拒绝", (dialog, which) -> FriendService.disagreeToBeFriend(userid1, userid2));
         builder.setTitle("提示");
         builder.setMessage("对方申请和你成为好友");
 
         handler.postDelayed(builder::show, 0);
     }
 
-    public void onFriendAgree(int userid1, int userid2) {
+    public void onFriendAgree() {
         handler.postDelayed(() -> Toast.makeText(this, "好友申请成功", Toast.LENGTH_SHORT).show(), 0);
         switchFragment(3);
     }
 
-    public void onFriendReject(int userid1, int userid2) {
+    public void onFriendReject() {
         handler.postDelayed(() -> Toast.makeText(this, "好友申请被拒绝,对话结束", Toast.LENGTH_SHORT).show(), 0);
         finish();
     }
+
+
 }

@@ -48,4 +48,15 @@
     <string name="manwoman">中</string>
     <string name="woman">女</string>
     <string name="_100">100</string>
+    <string name="meet">遇</string>
+    <string name="friend1">知</string>
+    <string name="me">己</string>
+    <string name="submit">提交</string>
+    <string name="birth">生日</string>
+    <string name="oldpassword">旧密码</string>
+    <string name="newpassword">新密码</string>
+    <string name="newpasswordReCheck">再次确认</string>
+    <string name="_00_00_10">/00:00:10</string>
+    <string name="reason">理由</string>
+    <string name="friendSIze">好友数量</string>
 </resources>
